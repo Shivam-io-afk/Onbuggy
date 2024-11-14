@@ -1,0 +1,119 @@
+#container_one{
+    height: 60px;
+}
+
+#container_one .top_nav{
+    width: 10% !important;
+    margin-right: 20px !important;
+}
+
+#container_one .top_nav li:nth-child(2),
+#container_one .top_nav li:nth-child(3),
+#container_one .top_nav li:nth-child(4){
+    display: none !important;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2{
+    color: #30e849;
+    font-weight: 600 !important;
+    pointer-events: none;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2 i{
+    color: #000;
+}
+
+:root{
+    --fontliSize:16px;
+    --Fonth1:40px;
+}
+/* 
+body{
+    overflow-y: hidden;
+} */
+
+#matter_container{
+    position: relative;
+    margin-top: 50px;
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#matter_container .side_Indicatiorbar{
+    height: 100%;
+    width: 350px;
+    border-right: 2px solid #ddd;
+    padding:40px 10px;
+    user-select: none;
+}
+
+#matter_container .side_Indicatiorbar > li{
+    list-style: circle;
+    font-size: var(--fontliSize);
+    margin: 5px;
+    text-transform: capitalize;
+    cursor: pointer;
+    padding:0 5px;
+    color: #30e849 !important;
+    list-style-type: disc !important;
+    font-weight:500 !important;
+    font-size: 16px !important;
+    transition: 0.2s ease !important;
+}
+
+.track{
+    color: #30e849 !important;
+    list-style-type: disc !important;
+    font-weight:600 !important;
+    font-size: 17px !important;
+    transition: 0.2s ease !important;
+}
+
+#matter_container .side_Indicatiorbar > li > a{
+    color: #000;
+    text-decoration: none;
+}
+
+#matter_container .main_matter_box{
+    height: 100%;
+    width: 75%;
+    padding-top: 10px;
+    overflow-y: scroll;
+}
+
+#matter_container .main_matter_box div{
+    margin: 15px 20px;
+}
+
+#matter_container .main_matter_box div a{
+    text-decoration: underline #000;
+    color: #30e849;
+    font-weight: 500;
+    outline: none;
+}
+
+#matter_container .main_matter_box div a::selection{
+    background-color: #888;
+}
+
+#matter_container .main_matter_box div h1{
+    font-size: var(--Fonth1);
+    text-transform: capitalize;
+    padding-bottom: 20px;
+}
+
+#matter_container .main_matter_box div h2{
+    padding-bottom: 15px;
+}
+
+#matter_container .main_matter_box div p{
+    padding-bottom: 20px;
+}
+
+#matter_container .main_matter_box div li{
+    list-style: square;
+    margin: 15px 0;
+}

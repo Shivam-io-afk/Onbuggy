@@ -1,0 +1,351 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui;
+    scrollbar-width: auto;
+    scrollbar-color: #666 #ffffff;
+    scroll-behavior: smooth;
+}
+
+:root{
+    --logo:30px;
+    --fontSize:17px;
+    --h1:70px;
+    --p:18px;
+}
+
+::selection{
+    background-color: #555;
+    color: #fff;
+}
+
+::-webkit-scrollbar{
+    width: 14px;
+}
+
+::-webkit-scrollbar-track{
+    background: rgba(221, 221, 221, 0.3);
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #666;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: #999;
+}
+
+
+/*-- Coustomizing NavBar & Translator --*/
+
+body {
+    top: 0px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.goog-logo-link {
+    display:none !important;
+}   
+.goog-te-gadget{
+    color: transparent !important;
+}
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+} 
+
+
+#container_one{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+#container_one .navbox{
+    position: fixed;
+    left: 0;
+    height:50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 1);
+    user-select: none;
+    z-index: 10;
+    box-shadow: 2px 2px 5px #333;
+    overflow: hidden;
+}
+
+#container_one .navbox #logo{
+    margin-right: auto;
+    width: 15%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: 100px;
+}
+#container_one .navbox #logo img{
+    height: 60px;
+    width: 60px;
+    user-select: none;
+    pointer-events: none;
+}
+#container_one .navbox #logo h2{
+    font-size: var(--logo);
+    margin-left: 5px;
+    min-width: 300px;
+}
+#container_one .navbox #logo h2 span{
+    color: #30e849;
+}
+#container_one .navbox #navbar{
+    height: 100%;
+    /* width: 50%; */
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+}
+#container_one .navbox #navbar li{
+    height: 40px;
+    list-style: none;
+    font-size: var(--fontSize);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease;
+    border-bottom: 2px ridge #30e849;
+}
+#container_one .navbox #navbar li > a{
+    position: relative;
+    text-decoration: none;
+    color:#000;
+    text-transform: capitalize;
+    margin-right: 10px;
+    padding-left: 10px;
+}
+
+#container_one .navbox #navbar #google_element{
+    position: relative;
+}
+
+#container_one .navbox #navbar #google_element i{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 25px;
+    user-select: none;
+    pointer-events: none;
+}
+
+#container_one .navbox #navbar #google_element .goog-te-combo{
+    margin-top: 20px;
+    height: 40px;
+    width: 170px;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    padding-left: 20px;
+    font-size: 16px;
+    border: none;
+}
+
+#container_one .navbox #navbar #google_element .goog-te-combo::-webkit-scrollbar{
+    width: 12px;
+}
+
+#container_one .navbox #navbar #google_element .goog-te-combo::-webkit-scrollbar-track{
+    background: #fff;
+}
+
+
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="ar"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="hy"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="co"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="fi"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="haw"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="hmn"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="mk"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="mg"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="mi"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="sm"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="tg"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="xh"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="th"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="tr"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="zh-CN"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="zh-TW"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="ht"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="rw"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="ku"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="my"],
+#container_one .navbox #navbar #google_element .goog-te-combo option[value="lb"]{
+    display: none !important;
+}
+
+
+
+/* -- matter_section  -- */
+
+
+#container_two{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+
+#container_two .matter_head{
+    position: absolute;
+    top: 50px;
+    height: 80%;
+    width: 100%;
+    overflow:hidden;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+#container_two .matter_head img{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* -- Main Slider -- */
+
+#container_two .matter_head div{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    color: #fff;
+}
+
+#container_two .matter_head > div::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left:0;
+    height: 100%;
+    width: 40%;
+    background-color: rgba(128, 255, 0, 0.5);
+    mix-blend-mode: overlay;
+}
+
+#container_two .matter_head div .img_box{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation:float 2s ease-in-out infinite alternate;
+    z-index: 2;
+}
+
+@keyframes float {
+    to{
+        transform: translateY(-10px);
+    }
+    from{
+        transform: translateY(0px);
+    }
+}
+
+#container_two .matter_head div .img_box img{
+    height: 85%;
+    width: 85%;
+    object-fit: contain;
+}
+#container_two .matter_head div .description{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 60%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: 0.4s ease;
+}
+
+#container_two .matter_head div .description::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left:0;
+    transform: translateY(-50%);
+    height: 70%;
+    width: 2px;
+    border-top: 15px groove #000;
+    border-bottom: 15px groove #000;
+    background-color: chartreuse;
+}
+
+#container_two .matter_head div .description h1{
+    font-size: var(--h1);
+    transition: 0.3s ease;
+}
+
+#container_two .matter_head div .description h1 span{
+    color: chartreuse;
+}
+
+#container_two .matter_head div .description p{
+    margin-top:34px;
+    text-transform: capitalize;
+    width: 550px;
+    text-align: center;
+    font-size: var(--p);
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+
+#container_two .slider_btn{
+    position: absolute;
+    bottom: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#container_two .slider_btn li{
+    list-style: none;
+    font-size: 20px;
+    width: 50px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#container_two .slider_btn li:nth-child(1){
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+#container_two .slider_btn li i{
+    font-size: var(--logo);
+    color: #fff;
+}
+
+
