@@ -12,6 +12,7 @@ import {
   ChevronUp,
   ExternalLink,
   Zap,
+  X,
 } from 'lucide-react';
 
 export const PortalSwitcherBar: React.FC = () => {
@@ -20,7 +21,13 @@ export const PortalSwitcherBar: React.FC = () => {
   const navigate = useNavigate();
 
   const [connected, setConnected] = useState(false);
-  const [minimized, setMinimized] = useState(false);
+  const [minimized, setMinimized] = useState<boolean>(() => {
+    const saved = localStorage.getItem('portalBarMinimized');
+    return saved !== null ? saved === 'true' : true; // Default: HIDE
+  });
+  const [dismissed, setDismissed] = useState<boolean>(() => {
+    return localStorage.getItem('portalBarDismissed') === 'true';
+  });
 
   useEffect(() => {
     const s = getSocket();
@@ -96,39 +103,74 @@ export const PortalSwitcherBar: React.FC = () => {
     navigate(portal.path);
   };
 
+  if (dismissed) {
+    return null;
+  }
+
   if (minimized) {
     return (
       <div
         style={{
           position: 'fixed',
-          top: '72px',
-          right: '16px',
+          bottom: '20px',
+          right: '20px',
           zIndex: 999,
           backgroundColor: '#0f172a',
           color: '#ffffff',
           borderRadius: '9999px',
-          padding: '6px 14px',
+          padding: '6px 12px 6px 14px',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.25)',
           fontSize: '0.78rem',
-          cursor: 'pointer',
-          border: '1px solid rgba(255,255,255,0.15)',
+          border: '1px solid rgba(255,255,255,0.18)',
         }}
-        onClick={() => setMinimized(false)}
       >
-        <span
-          style={{
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            backgroundColor: connected ? '#10b981' : '#f59e0b',
-            boxShadow: connected ? '0 0 8px #10b981' : 'none',
+        <div
+          onClick={() => {
+            setMinimized(false);
+            localStorage.setItem('portalBarMinimized', 'false');
           }}
-        />
-        <span style={{ fontWeight: 700 }}>4 Portals</span>
-        <ChevronDown size={14} />
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+          title="Click to expand Multi-Role Portal Switcher"
+        >
+          <span
+            style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: connected ? '#10b981' : '#f59e0b',
+              boxShadow: connected ? '0 0 8px #10b981' : 'none',
+            }}
+          />
+          <span style={{ fontWeight: 700 }}>Portals</span>
+          <ChevronDown size={14} />
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setDismissed(true);
+            localStorage.setItem('portalBarDismissed', 'true');
+          }}
+          aria-label="Dismiss portals badge"
+          title="Dismiss completely"
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#94a3b8',
+            cursor: 'pointer',
+            padding: '2px',
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: '4px',
+            borderLeft: '1px solid rgba(255,255,255,0.2)',
+            paddingLeft: '6px',
+          }}
+        >
+          <X size={13} />
+        </button>
       </div>
     );
   }
@@ -242,8 +284,12 @@ export const PortalSwitcherBar: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => setMinimized(true)}
+            onClick={() => {
+              setMinimized(true);
+              localStorage.setItem('portalBarMinimized', 'true');
+            }}
             aria-label="Minimize portal bar"
+            title="Hide portal bar"
             style={{
               background: 'none',
               border: 'none',
