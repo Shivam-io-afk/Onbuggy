@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { deliveryService } from '../services/api';
 import { Order } from '../types';
@@ -45,8 +45,18 @@ export const DeliveryPanelPage: React.FC = () => {
 
   const { user, isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [activeTab, setActiveTab] = useState<'active' | 'history' | 'profile'>('active');
+
+  // Sync tab with URL search parameter if provided (?tab=active | history | profile)
+  useEffect(() => {
+    const tabParam = searchParams.get('tab') as 'active' | 'history' | 'profile' | null;
+    if (tabParam && ['active', 'history', 'profile'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
+
   const [stats, setStats] = useState<{
     riderName: string;
     activeTrips: number;
@@ -68,6 +78,19 @@ export const DeliveryPanelPage: React.FC = () => {
     return localStorage.getItem('onbuggy_rider_online') !== 'false';
   });
 
+  // Sync duty status with Navbar or other tabs
+  useEffect(() => {
+    const handleDutyChange = () => {
+      setIsOnline(localStorage.getItem('onbuggy_rider_online') !== 'false');
+    };
+    window.addEventListener('onbuggy_duty_changed', handleDutyChange);
+    window.addEventListener('storage', handleDutyChange);
+    return () => {
+      window.removeEventListener('onbuggy_duty_changed', handleDutyChange);
+      window.removeEventListener('storage', handleDutyChange);
+    };
+  }, []);
+
   // Delivery confirmation modal
   const [confirmModalOrder, setConfirmModalOrder] = useState<Order | null>(null);
   const [deliveryNote, setDeliveryNote] = useState('');
@@ -83,6 +106,7 @@ export const DeliveryPanelPage: React.FC = () => {
     const next = !isOnline;
     setIsOnline(next);
     localStorage.setItem('onbuggy_rider_online', String(next));
+    window.dispatchEvent(new Event('onbuggy_duty_changed'));
   };
 
   const loadData = async (isManual = false) => {

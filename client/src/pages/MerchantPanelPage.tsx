@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { merchantService } from '../services/api';
 import { Order, Shop, Product, MerchantStats } from '../types';
@@ -44,8 +44,17 @@ export const MerchantPanelPage: React.FC = () => {
 
   const { user, isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [activeTab, setActiveTab] = useState<'orders' | 'inventory' | 'store'>('orders');
+
+  // Sync tab with URL search parameter if provided (?tab=orders | inventory | store)
+  useEffect(() => {
+    const tabParam = searchParams.get('tab') as 'orders' | 'inventory' | 'store' | null;
+    if (tabParam && ['orders', 'inventory', 'store'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
   const [stats, setStats] = useState<MerchantStats | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [products, setProducts] = useState<Product[]>([]);

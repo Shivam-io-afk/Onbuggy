@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { adminService } from '../services/api';
 import { Order, Shop, User, OrderStatus } from '../types';
@@ -54,8 +54,17 @@ export const AdminPanelPage: React.FC = () => {
 
   const { user, isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [activeTab, setActiveTab] = useState<'orders' | 'financials' | 'fleet' | 'shops' | 'users' | 'broadcast' | 'analytics'>('orders');
+
+  // Sync tab with URL search parameter if provided (?tab=orders | fleet | shops | etc.)
+  useEffect(() => {
+    const tabParam = searchParams.get('tab') as any;
+    if (tabParam && ['orders', 'financials', 'fleet', 'shops', 'users', 'broadcast', 'analytics'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
   const [stats, setStats] = useState<any>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [shops, setShops] = useState<Shop[]>([]);

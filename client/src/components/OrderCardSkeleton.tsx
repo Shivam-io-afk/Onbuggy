@@ -26,3 +26,4 @@ export const OrderCardSkeleton: React.FC = () => {
     </div>
   );
 };
+
