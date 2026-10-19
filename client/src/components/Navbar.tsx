@@ -22,15 +22,14 @@ import {
   Bike,
   Store,
 } from 'lucide-react';
+import { LocationPickerModal } from './LocationPickerModal';
 
 export const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout, userLocation, setUserLocation } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLocModalOpen, setIsLocModalOpen] = useState(false);
-  const [locInput, setLocInput] = useState(userLocation);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const locationModalRef = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -64,34 +63,6 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setMobileDrawerOpen(false);
   }, [location.pathname]);
-
-  const handleDetectGPS = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude.toFixed(4);
-          const lng = position.coords.longitude.toFixed(4);
-          const newLoc = `GPS: ${lat}, ${lng} (${siteConfig.serviceableCity})`;
-          setUserLocation(newLoc);
-          setLocInput(newLoc);
-          setIsLocModalOpen(false);
-        },
-        () => {
-          alert('GPS permission was denied or unavailable. You can type your location manually.');
-        }
-      );
-    } else {
-      alert('Geolocation is not supported by your browser.');
-    }
-  };
-
-  const handleSaveLocation = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (locInput.trim()) {
-      setUserLocation(locInput.trim());
-      setIsLocModalOpen(false);
-    }
-  };
 
   const isCurrent = (path: string) => location.pathname === path;
 
@@ -683,128 +654,19 @@ export const Navbar: React.FC = () => {
         </div>
       )}
 
-      {/* Location Modal */}
-      {isLocModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="locModalTitle"
-          onClick={() => setIsLocModalOpen(false)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '1rem',
-          }}
-        >
-          <div
-            ref={locationModalRef}
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundColor: '#ffffff',
-              borderRadius: '20px',
-              width: '100%',
-              maxWidth: '460px',
-              padding: '24px',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 id="locModalTitle" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--dark)' }}>
-                Choose Delivery Location
-              </h3>
-              <button
-                type="button"
-                onClick={() => setIsLocModalOpen(false)}
-                aria-label="Close location picker"
-                style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleDetectGPS}
-              style={{
-                width: '100%',
-                padding: '12px',
-                borderRadius: '10px',
-                backgroundColor: '#ecfdf5',
-                border: '1px solid #a7f3d0',
-                color: '#047857',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                marginBottom: '18px',
-                cursor: 'pointer',
-              }}
-            >
-              <Navigation size={18} />
-              Use Current Location (GPS)
-            </button>
-
-            <form onSubmit={handleSaveLocation}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '6px' }}>
-                Or enter address manually:
-              </label>
-              <input
-                type="text"
-                value={locInput}
-                onChange={(e) => setLocInput(e.target.value)}
-                placeholder="Street Name, Area Name, Locality (Rewa)"
-                style={{
-                  width: '100%',
-                  padding: '11px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid #cbd5e1',
-                  fontSize: '0.92rem',
-                  marginBottom: '16px',
-                  outline: 'none',
-                }}
-              />
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                <button
-                  type="button"
-                  onClick={() => setIsLocModalOpen(false)}
-                  style={{
-                    padding: '9px 16px',
-                    borderRadius: '8px',
-                    backgroundColor: '#f1f5f9',
-                    color: '#475569',
-                    fontWeight: 600,
-                    border: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  style={{
-                    padding: '9px 20px',
-                    borderRadius: '8px',
-                    backgroundColor: 'var(--primary)',
-                    color: '#064e3b',
-                    fontWeight: 700,
-                    border: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Set Location
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Dynamic Rewa Location Picker Modal with Autocomplete Recommendations */}
+      <LocationPickerModal
+        isOpen={isLocModalOpen}
+        onClose={() => setIsLocModalOpen(false)}
+        currentLocation={userLocation}
+        onSelectLocation={(data) => {
+          setUserLocation(data.address, {
+            lat: data.lat,
+            lng: data.lng,
+            area: data.area,
+          });
+        }}
+      />
 
       {/* Mobile Fixed Bottom Navigation Bar */}
       <nav

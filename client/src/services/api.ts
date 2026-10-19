@@ -38,8 +38,15 @@ export const authService = {
 
 // Shop Services
 export const shopService = {
-  getShops: (params?: { category?: string; search?: string; sortBy?: string; isOpen?: boolean }) =>
-    API.get<{ success: boolean; count: number; data: Shop[] }>('/shops', { params }),
+  getShops: (params?: {
+    category?: string;
+    search?: string;
+    sortBy?: string;
+    isOpen?: boolean;
+    userLat?: number;
+    userLng?: number;
+    location?: string;
+  }) => API.get<{ success: boolean; count: number; data: Shop[] }>('/shops', { params }),
   getShopById: (id: string) =>
     API.get<{ success: boolean; data: Shop; products: Product[] }>(`/shops/${id}`),
 };

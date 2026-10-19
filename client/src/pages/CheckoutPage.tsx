@@ -26,7 +26,7 @@ import {
 
 export const CheckoutPage: React.FC = () => {
   useDocumentTitle('Checkout & Instant Order', 'Upload prescription or order slip for instant 20-min delivery.');
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, userLocation, userCoordinates } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -40,11 +40,13 @@ export const CheckoutPage: React.FC = () => {
   const [fileError, setFileError] = useState<string>('');
   const [uploading, setUploading] = useState<boolean>(false);
 
-  // Form Fields - Prefill ONLY from authenticated user, no hardcoded defaults!
+  // Form Fields - Prefill from user address or selected location
   const [recipientName, setRecipientName] = useState<string>(user?.name || '');
   const [recipientPhone, setRecipientPhone] = useState<string>(user?.phone || '');
   const [address, setAddress] = useState<string>(
-    user?.address?.street ? `${user.address.street}, ${user.address.city || siteConfig.serviceableCity} ${user.address.pincode || ''}`.trim() : ''
+    user?.address?.street
+      ? `${user.address.street}, ${user.address.city || siteConfig.serviceableCity} ${user.address.pincode || ''}`.trim()
+      : userLocation || ''
   );
 
   // Validation States
@@ -74,7 +76,7 @@ export const CheckoutPage: React.FC = () => {
     return calculateBill(numericBudget, appliedCoupon, optInCharity);
   }, [numericBudget, appliedCoupon, optInCharity]);
 
-  // Update recipient when user changes/logs in
+  // Update recipient when user changes/logs in or location is updated
   useEffect(() => {
     if (user) {
       if (!recipientName) setRecipientName(user.name || '');
@@ -82,12 +84,20 @@ export const CheckoutPage: React.FC = () => {
       if (!address && user.address?.street) {
         setAddress(`${user.address.street}, ${user.address.city || siteConfig.serviceableCity} ${user.address.pincode || ''}`.trim());
       }
+    } else if (!address && userLocation) {
+      setAddress(userLocation);
     }
-  }, [user]);
+  }, [user, userLocation]);
 
-  // Fetch shops & preselect by shopId or category
+  // Fetch shops & preselect by shopId or category with proximity support
   useEffect(() => {
-    shopService.getShops().then((res) => {
+    shopService
+      .getShops({
+        userLat: userCoordinates?.lat,
+        userLng: userCoordinates?.lng,
+        location: userLocation,
+      })
+      .then((res) => {
       if (res.data.success && res.data.data.length > 0) {
         const allShops = res.data.data;
         setShops(allShops);

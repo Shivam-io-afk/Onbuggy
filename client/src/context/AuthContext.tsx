@@ -2,6 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '../types';
 import { authService } from '../services/api';
 
+export interface UserCoordinates {
+  lat: number;
+  lng: number;
+  area?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   token: string | null;
@@ -13,7 +19,8 @@ interface AuthContextType {
   updateProfile: (data: Partial<User>) => Promise<{ success: boolean; message?: string }>;
   refreshUser: () => Promise<void>;
   userLocation: string;
-  setUserLocation: (loc: string) => void;
+  userCoordinates: UserCoordinates | null;
+  setUserLocation: (loc: string, coords?: UserCoordinates | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,12 +30,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [loading, setLoading] = useState<boolean>(true);
   const [userLocation, setUserLocationState] = useState<string>(
-    localStorage.getItem('UserLocation') || 'Rewa, Madhya Pradesh'
+    localStorage.getItem('UserLocation') || 'Civil Lines, Rewa, Madhya Pradesh'
   );
+  const [userCoordinates, setUserCoordinates] = useState<UserCoordinates | null>(() => {
+    const saved = localStorage.getItem('UserCoordinates');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return null;
+      }
+    }
+    return { lat: 24.5373, lng: 81.2986, area: 'Civil Lines' };
+  });
 
-  const setUserLocation = (loc: string) => {
+  const setUserLocation = (loc: string, coords?: UserCoordinates | null) => {
     setUserLocationState(loc);
     localStorage.setItem('UserLocation', loc);
+    if (coords) {
+      setUserCoordinates(coords);
+      localStorage.setItem('UserCoordinates', JSON.stringify(coords));
+    }
   };
 
   const refreshUser = async () => {
@@ -127,6 +149,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateProfile,
         refreshUser,
         userLocation,
+        userCoordinates,
         setUserLocation,
       }}
     >

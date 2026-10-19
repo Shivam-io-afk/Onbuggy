@@ -5,13 +5,18 @@ import { ShopCard } from '../components/ShopCard';
 import { Shop } from '../types';
 import { shopService } from '../services/api';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import { Search, SlidersHorizontal, Sparkles, X, Tag, ShieldCheck, Zap, ArrowRight, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { LocationPickerModal } from '../components/LocationPickerModal';
+import { Search, SlidersHorizontal, Sparkles, X, Tag, ShieldCheck, Zap, ArrowRight, Loader2, MapPin } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
   useDocumentTitle(
     'Onbuggy - Instant Hyperlocal Delivery in Rewa',
     'Get medicines, groceries, and fresh produce delivered to your doorstep in 20 minutes from trusted local stores.'
   );
+
+  const { userLocation, userCoordinates, setUserLocation } = useAuth();
+  const [isLocModalOpen, setIsLocModalOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -94,6 +99,9 @@ export const HomePage: React.FC = () => {
         category: selectedCategory === 'all' ? undefined : selectedCategory,
         search: debouncedSearch.trim() || undefined,
         sortBy,
+        userLat: userCoordinates?.lat,
+        userLng: userCoordinates?.lng,
+        location: userLocation,
       });
       if (res.data.success) {
         setShops(res.data.data);
@@ -107,7 +115,7 @@ export const HomePage: React.FC = () => {
 
   useEffect(() => {
     fetchShops();
-  }, [selectedCategory, debouncedSearch, sortBy]);
+  }, [selectedCategory, debouncedSearch, sortBy, userCoordinates?.lat, userCoordinates?.lng, userLocation]);
 
   return (
     <div>
@@ -265,6 +273,73 @@ export const HomePage: React.FC = () => {
                 {sort.label}
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* Dynamic Delivery Location Status Banner */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            backgroundColor: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px',
+            padding: '12px 18px',
+            marginBottom: '1.5rem',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div
+              style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '10px',
+                backgroundColor: '#ecfdf5',
+                color: '#047857',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <MapPin size={18} />
+            </div>
+            <div>
+              <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Delivering to Address
+              </span>
+              <div style={{ fontSize: '0.96rem', fontWeight: 800, color: 'var(--dark)' }}>
+                {userLocation}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '0.8rem', color: '#16a34a', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block' }} />
+              Live Dynamic ETA Active
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsLocModalOpen(true)}
+              style={{
+                backgroundColor: '#f1f5f9',
+                border: '1px solid #cbd5e1',
+                padding: '7px 14px',
+                borderRadius: '10px',
+                fontSize: '0.84rem',
+                fontWeight: 700,
+                color: '#334155',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              Change Location &rarr;
+            </button>
           </div>
         </div>
 
@@ -546,6 +621,20 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Dynamic Rewa Location Picker Modal */}
+      <LocationPickerModal
+        isOpen={isLocModalOpen}
+        onClose={() => setIsLocModalOpen(false)}
+        currentLocation={userLocation}
+        onSelectLocation={(data) => {
+          setUserLocation(data.address, {
+            lat: data.lat,
+            lng: data.lng,
+            area: data.area,
+          });
+        }}
+      />
     </div>
   );
 };
