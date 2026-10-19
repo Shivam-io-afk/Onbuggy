@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comming Soon</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui;
+            text-transform: capitalize;
+        }
+        :root{
+            --headerSize:55px;
+        }
+
+        .main_container{
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            user-select: none;
+        }
+        .main_container h2{
+            font-size: var(--headerSize);
+            font-weight: 600;
+            text-decoration: underline gainsboro;
+        }
+        .main_container .section{
+            margin-top: 30vh;
+        }
+        .main_container .section p{
+            font-size: 18px;
+            height: 50px;
+            width: 610px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgb(255, 226, 226);
+            animation: blinker 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes blinker{
+            to{
+                background-color: rgb(252, 214, 214);
+            }
+            from{
+                background-color: rgb(255, 190, 190);
+            }
+        }
+        
+        .main_container .section p:nth-child(2){
+            padding: 20px;
+            padding-bottom: 40px;
+            text-align: end;
+        }
+        .main_container .section p:nth-child(2) button{
+            height: 30px;
+            width: 90px;
+            font-size: 15px;
+            cursor: pointer;
+            background: whitesmoke;
+            outline: none;
+            border: 1px solid #000;
+            border-radius: 8px;
+            margin-left:10px;
+        }
+        .main_container .section p:nth-child(2) button:nth-child(2){
+            width: 60px;
+        }
+        .main_container .section p:nth-child(2) button:hover{
+            background: gainsboro;
+        }
+
+        .main_container .section p:nth-child(2) button a{
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+       <div class="main_container">
+           <h2>we are adding it soon</h2>
+           <div class="section">
+               <p>we are sorry for your incorporate. 
+                we will adding this section on our site soon,
+                so please stay with us and check again after some time. 
+               </p>
+               <p>for more information 
+                   <button><a href="Contact-us.html ">contact-us</a></button>
+                    <button><a href="Onbuggy.html">home</a></button>
+                </p>
+           </div>
+       </div>
+</body>
+</html>

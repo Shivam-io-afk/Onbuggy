@@ -1,0 +1,20 @@
+{
+  "name": "onbuggy-mern",
+  "version": "2.0.0",
+  "description": "Onbuggy - Modern MERN Stack Hyperlocal Essentials Delivery Platform with TypeScript, MongoDB, Express, and React",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix server && npm run build --prefix client",
+    "seed": "npm run seed --prefix server",
+    "start": "node server/dist/index.js",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "author": "Onbuggy Team",
+  "license": "ISC"
+}
+

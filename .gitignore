@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Production builds
+dist/
+build/
+
+# Environment Variables
+.env
+.env.local
+
+# Uploads & Temp
+server/uploads/*
+!server/uploads/.gitkeep
+*.log
+.DS_Store
+

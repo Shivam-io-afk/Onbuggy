@@ -1,0 +1,206 @@
+@media (max-width:1740px){
+    #max_width_alert{
+        display: block;
+        z-index: 10;
+        cursor: none;
+        pointer-events: fill;
+    }
+}
+@media (max-width:1450px){
+    #max_width_alert{
+        display: none;
+    }
+}
+
+@media (max-width:1024px){
+    :root{
+        --fontSize:15px;
+        --headerSize:45px;
+    }
+
+    #form_container #svgcontainer #svg{
+        position: absolute;
+        top:calc(250px - 450px);
+        height: 130%;
+        width: 130%;
+    }
+    #form_container #side_right #form_up input[type="text"],
+    #form_container #side_right #form_up input[type="password"],
+    #form_container #side_right #form_up input[type="email"]{
+        width: 320px;
+        padding-left: 45px;
+    }
+    #form_container #side_right #form_up .column_1 lord-icon,
+    #form_container #side_right #form_up .column_2 lord-icon,
+    #form_container #side_right #form_up .column_3 lord-icon{
+        margin-left: 20px;
+    }
+    #form_container #side_right #form_up input[type="submit"]{
+        width:100px
+    }
+    #form_container #side_right #form_up .column_4 .google img,
+    #form_container #side_right #form_up .column_4 .facebook img{
+        height: 22px;
+        width: 22px;
+    }
+    #form_container{
+        height: 430px;
+        width: 800px;
+    }
+}
+
+@media (max-width:920px) {
+    #form_container #side_right #form_up .column_4 input[type="button"]{
+        padding-left: 25px;
+    }
+    #form_container #side_right #form_up .column_4 input[type="button"]{
+        width: 120px;
+    }
+    #form_container #side_left .side_image{
+        margin-left: -20px;
+    }
+    #form_container #side_left .side_image img{
+        height: 105%;
+        width: 105%;
+    }
+    #center{
+        width: 350px;
+    }
+    #center h1{
+        font-size: 25px;
+    }
+    #center input[type="number"]{
+        width: 280px;
+    }
+    #center input[type="submit"]{
+        height: 30px;
+        width: 90px;
+    }
+    #actionPage{
+        width: 400px;
+    }
+}
+
+@media (max-width:768px) {
+    :root{
+        --fontSize:15px;
+        --headerSize:45px;
+    }
+    #form_container{
+        box-shadow: 2px 2px 10px #999,
+                    2px -2px 10px #999;
+    }
+    #form_container #side_right #form_up{
+        height: 450px;
+    }
+    #form_container #side_right #form_up input[type="submit"]{
+        height: 30px; 
+        width: 100px;
+    }
+    #form_container{
+        width: 790px;
+    }
+    #form_container #side_left .side_image img{
+        height: 110%;
+        width: 110%;
+    }
+    #form_container #side_right #form_up input[type="text"],
+    #form_container #side_right #form_up input[type="password"],
+    #form_container #side_right #form_up input[type="email"]{
+        height: 30px;
+        width: 350px;
+        padding-left: 45px;
+    }
+    #header{
+        text-shadow: 2px -2px 10px #fff;
+        text-decoration: underline chartreuse;
+    }
+    #form_container #side_right{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        z-index: 4;
+    }
+    #form_container #side_left{
+        height: 100%;
+        width: 100%;
+    }
+    #form_container #side_left .side_image img{
+        height: 100%;
+        width: 100%;
+        filter: blur(5px);
+        transform: scale(0.6);
+    }
+    #form_container #side_right #form_up .column_4{
+        position: absolute;
+        align-self: center;
+        width: 500px;
+        margin-top: 60vh;
+    }
+    #ambient{
+        z-index: 2;
+    }
+    #form_container #side_right #form_up .column_4 input[type="button"]{
+        height: 30px;
+        width: 110px;
+    }
+    #form_container #side_right #form_up .column_4 .google img,
+    #form_container #side_right #form_up .column_4 .facebook img{
+        height: 22px;
+        width: 22px;
+    }
+    #form_container #side_right #form_up .column_4 span{
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.5);
+        margin-top: -10vh;
+    }
+}
+
+/* -- For Mobile -- */
+
+@media(max-width:540px){
+    body{
+        overflow: hidden;
+    }
+    #form_container{
+        height: 100%;
+    }
+    #form_container #side_right #form_up input[type="text"],
+    #form_container #side_right #form_up input[type="password"],
+    #form_container #side_right #form_up input[type="email"]{
+      border-radius: 10px;
+      width: 330px;
+    }
+    #form_container #svgcontainer #svg{
+        position: absolute;
+        top:-80vh;
+        height: 180%;
+        width: 180%;
+        transform: scale(3);
+    }
+    #form_container #side_right #form_up{
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+    }
+    #form_container #side_left{
+        transform: scale(1.4);
+    }
+    #ambient{
+        height: 150vh;
+        width: 150vw;
+        transform: scale(0.8);
+    }
+    #form_container #side_right #form_up .column_4{
+        width: 450px;
+    }
+    #form_container #side_right #form_up .column_4 span{
+        margin-top: -12vh;
+    }
+}
+
+@media (max-width:380px){
+ 
+}
+

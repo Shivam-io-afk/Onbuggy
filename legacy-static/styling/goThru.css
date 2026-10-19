@@ -1,0 +1,706 @@
+:root{
+    --PageSize:17px;
+}
+
+#container_one{
+    height: 60px;
+}
+
+#container_one .top_nav{
+    width: 30% !important;
+}
+
+#container_one .top_nav li:nth-child(2),
+#container_one .top_nav li:nth-child(3){
+    display: none !important;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2{
+    color: #000 !important;
+    pointer-events: fill !important;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2 i{
+    color: #000 !important;
+}
+
+
+.box_container{
+    position: relative;
+    top:0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box_container > img{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    user-select: none;
+}
+
+.box_container #sub_catlog{
+    position: relative;
+    margin-top: 50px;
+    height: 550px;
+    width: 1000px;
+    z-index: 2;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 10px #000;
+    overflow: hidden;
+}
+
+/*-- Main Catlog Part --*/
+
+.box_container #sub_catlog #main_catlog{
+    height: 100%;
+    width: 200%;
+    border-radius: 10px;
+    display: flex;
+}
+
+.box_container #sub_catlog #main_catlog > div{
+    height: 100%;
+    width: 50%;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.4s ease-in-out;
+}
+
+.box_container #sub_catlog #main_catlog .catrgory_header{
+    position: absolute;
+    left: 0;
+    height:200px;
+    width: 100%;
+    border-radius: 0;
+    z-index: 4;
+    color: #fff;
+    border:1px solid #000;
+    user-select: none;
+    overflow: hidden;
+}
+
+.box_container #sub_catlog #main_catlog .catrgory_header img{
+    position: absolute;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.box_container #sub_catlog #main_catlog .catrgory_header::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.box_container #sub_catlog #main_catlog .catrgory_header #shop_main_h1{
+    position: absolute;
+    top: 20%;
+    transform: translateY(-50%);
+    z-index: 10;
+    font-size: 45px;
+    text-shadow: 0px 0px 10px #000;
+}
+
+.box_container #sub_catlog #main_catlog .catrgory_header #shop_main_h1::first-letter{
+    color: #30e849;
+}
+
+.box_container #sub_catlog #main_catlog .catrgory_header .rating_bar{
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    height:25px;
+    width: 55px;
+    padding:2px 5px;
+    border-radius: 5px;
+    background-color: orange;
+    box-shadow: 0px 0px 10px #000;
+    z-index: 5;
+}
+.box_container #sub_catlog #main_catlog .catrgory_header .rating_bar > li{
+    list-style: none;
+    color: #fff;
+    align-self: center;
+    font-weight: 600;
+    z-index: 5;
+}
+.box_container #sub_catlog #main_catlog .catrgory_header .rating_bar .star{
+    height: 100%;
+    width: 20px;
+    background-color: #fff;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    z-index: 5;
+}
+
+
+
+.box_container #sub_catlog #main_catlog .catlog_section-1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box{
+    margin-top: 180px;
+    height: 220px;
+    width: 450px;
+    color: #fff;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box .img_name{
+    margin: 10px;
+    font-weight: 200;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form input[type="file"]{
+    display: none;
+    z-index: -30;
+    pointer-events: none;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .image_container_box{
+    position: relative;
+    height: 50px;
+    width: 90%;
+    font-size: 25px;
+    margin-bottom:10px;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: 0.1s;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .image_container_box:hover{
+    background-color: #444;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .image_container_box .arrow_image{
+    height: 100%;
+    width: 50px;
+    border-left: 4px solid greenyellow;
+    margin-left: 20px;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .image_container_box .arrow_image > img{
+    margin-top: 1px;
+    height: 100%;
+    width: 70%;
+    padding: 5px;
+    margin-left: 20px;
+}
+
+/* .img_name */
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .cnfrm_btn{
+    position: relative;
+    height: 35px;
+    width: 130px;
+    font-size: var(--PageSize);
+    font-weight: 600;
+    margin-top:20px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #fff;
+    overflow: hidden;
+    transition: 0.6s linear;
+    border: 1px solid #ddd;
+    box-shadow: 0px 0px 5px chartreuse;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .cnfrm_btn:hover{
+    background-color: #30e849;
+    border: 1px solid lightgreen;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .cnfrm_btn > i{
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .cnfrm_btn::before{
+    content: '';
+    position: absolute;
+    top:-65px;
+    left: -35px;
+    height: 300%;
+    width: 40px;
+    background: linear-gradient(90deg,transparent,#ddd);
+    transform: rotateZ(45deg);
+    transition: 0.5s linear;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .image_upl_box form .cnfrm_btn:hover::before{
+    top:80px;
+    left: 300px;
+}
+
+.box_container #sub_catlog #main_catlog .catlog_section-1 .error_indicator{
+    position: relative;
+    margin-top: -50px;
+    margin-left: 0;
+    height: 30px;
+    padding: 5px 20px;
+    text-align: left;
+    background-color: rgb(253, 60, 60);
+    text-transform: capitalize;
+    transition: 0.2s ease;
+    z-index: -3;
+}
+.box_container #sub_catlog #main_catlog .catlog_section-1 .error_indicator span{
+    position: absolute;
+    right: 20px;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+.box_container #sub_catlog #main_catlog .catlog_section-1 .error_indicator span > img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain; 
+    filter: contrast(160%);
+    mix-blend-mode: lighten;
+}
+
+
+/*-- Catlog Section - 2 --*/
+
+.catlog_section-2{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.catlog_section-2 form{
+    margin-top: 250px;
+    height: 280px;
+    width: 800px;
+    padding: 10px;
+    background-color: #222;
+    box-shadow: 0px 0px 5px;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.catlog_section-2 form .location_tag{
+    position: absolute;
+    top:210px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: -1;
+}
+
+.catlog_section-2 form .location_tag::before{
+    content: '';
+    position: absolute;
+    top:50%;
+    left: 10%;
+    transform: translate(-50%,-50%);
+    height: 65%;
+    width: 3px;
+    background-color: #000;
+}
+
+.catlog_section-2 form .location_tag > input{
+    height: 45px;
+    width: 400px; 
+    padding-left: 55px;
+    padding-right: 10px;
+    font-size: var(--PageSize); 
+    outline: none;
+    border: none;  
+    background-color: transparent;
+    font-weight: 600;
+    text-transform: capitalize;
+    user-select: none;
+    text-overflow: ellipsis;
+    border-bottom: 3px solid #181b19;
+}
+
+.catlog_section-2 form .location_tag > input::placeholder{
+    color: #555;
+}
+
+.catlog_section-2 form .location_tag i{
+    position: absolute;
+    top: 5px;
+    left:2%;
+    font-size: 30px;
+    color: #30e849;
+}
+
+
+.catlog_section-2 form input[name="date_time"],
+.catlog_section-2 form input[name="contactName"],
+.catlog_section-2 form input[name="contactNum"]{
+    pointer-events: none;
+    user-select: none;   
+}
+
+.catlog_section-2 form input[name="contactName"]{
+    text-transform: capitalize;
+}
+
+
+.catlog_section-2 form .amount_part{
+    color: #fff;
+    text-align: center;
+    transition: 0.2s ease;
+    animation-play-state: running;
+    animation: blinker 0.6s linear infinite alternate;
+    user-select: none;
+}
+
+@keyframes blinker {
+    from{
+        filter: brightness(150%);
+    }
+    to{
+        filter: brightness(50%);
+    }
+}
+
+/*-- Billing Part --*/
+
+.catlog_section-2 form .main_billing_section{
+    position: relative;
+    margin-top: 10px;
+    height: 90%;
+    width: 100%;
+    background-color:  whitesmoke;
+    display: flex;
+    pointer-events: none;
+}
+
+.catlog_section-2 form .main_billing_section > div{
+    height: 100%;
+    width: 50%;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1{
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation{
+    height: 160px;
+    width: 100%;
+    background-color: whitesmoke;
+    border: 1px dotted #222;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation > div{
+    width: 100%;
+    color: #000;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .total_amount{
+    font-size: 16px;
+    margin-bottom: 0;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .delivery_charges{
+    font-size: 14px;
+    font-weight: 400;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .gst_value{
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon{
+    font-size: 15px;
+    font-weight: 700;
+    height: 70px;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-1{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 40px;
+    width: 30%;
+    margin-top: 5px;
+    padding-top: 25px;
+    transition: 0.2s;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-1 .cupn_name{
+    font-size: 14px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-2{
+    position: relative;
+    border-top: 1px solid #000;
+    height: 100%;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-2 > div:nth-child(1){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    font-size: 16px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-2 > div:nth-child(1){
+    position: absolute;
+    top: -25px;
+    left: 5px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-2 .symbol-2{
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    height: 20px;
+    width: 20px;
+    font-size: 25px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-2 .cupn_discnt{
+    margin-top: 3px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .coupon .cupnbx-2{
+    font-size: 15px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .calculation .grand_total{
+    border-top: 2px solid #30e849;
+    font-size: 18px;
+    padding: 0 5px;
+}
+
+/*-- Billing Part End --*/
+
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .details{
+    height: 50px;
+    width: 100%;
+    border-bottom: 2px groove #000;
+    user-select: none;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .details h2{
+    font-size: 17px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+.catlog_section-2 form .main_billing_section #m_Box-1 .details span{
+    font-size: 14px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-1 .details i{
+    float: right;
+    margin-right: 10px;
+    font-size: var(--PageSize);
+    color: grey;
+    pointer-events: none;
+}
+
+
+.catlog_section-2 form .main_billing_section #m_Box-2{
+    position: absolute;
+    right: 0;
+    padding: 8px;
+    overflow-y: scroll;
+    user-select: none;
+    pointer-events: none;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2::-webkit-scrollbar,
+.catlog_section-2 form .main_billing_section #m_Box-2::-webkit-scrollbar-track{
+    width: 9px;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .cupn_box{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .cupn_box::before{
+    content: 'CURRENTLY NOT AVAILABEL';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    z-index: 5;
+    text-align: center;
+    line-height: 35px;
+    font-weight: 600;
+    color: red;
+    font-size: 17px;
+    transition: 0.2s;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .cupn_box #cupon_box{
+    position: absolute;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    font-size: var(--PageSize);
+    padding-left: 40px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    border: 3px groove #222;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .cupn_box #cupon_box::-webkit-calendar-picker-indicator{
+    display: none !important;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .cupn_box i{
+    position: absolute;
+    margin-left: 5px;
+    color:#30e849;
+    pointer-events: none;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .cupn_box .clear_cupn_section{
+    position: absolute;
+    right: 10px;
+    height: 12px;
+    width: 12px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .sub_box_header{
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    text-transform: uppercase;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 > div{
+    position: relative;
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 50px;
+    box-shadow: 0px 0px 3px #666;
+    margin: 5px 0;
+    cursor: pointer;
+}
+.catlog_section-2 form .main_billing_section #m_Box-2 > div i{
+    position: absolute;
+    left: 10px;
+    font-size: var(--PageSize);
+    color:#555;
+    pointer-events: none;
+}
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .pymt-opt-1{
+    margin: 0 0;
+    margin-top: 15px;
+}
+.catlog_section-2 form .main_billing_section #m_Box-2 .pymt-opt-3{
+    position: relative;
+}
+.catlog_section-2 form .main_billing_section #m_Box-2 .pymt-opt-3 > div{
+    position: absolute;
+    top:40px;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    padding: 5px;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 3px #444;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: 0.2s;
+}
+.catlog_section-2 form .main_billing_section #m_Box-2 .pymt-opt-3 > div > li{
+    list-style: none;
+    padding:5px 45px;
+    opacity: 0;
+    transition: 0.22s;
+}
+
+
+.catlog_section-2 form .main_billing_section #m_Box-2 .pymt-opt-3 img{
+    position: absolute;
+    right: 15px;
+    height: 15px;
+    width: 15px;
+    transition: 0.2s;
+}
+.catlog_section-2 form .main_billing_section #m_Box-2 .pymt-opt-4{
+    margin-top: 5px;
+    transition: 0.2s;
+}
+
+
+
+
+
+
+
+

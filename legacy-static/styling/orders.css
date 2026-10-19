@@ -1,0 +1,446 @@
+:root{
+    --subHeader:22px;
+    --fontSize_page:16px;
+    --TopsubHeader:35px;
+    --cardFont:30px;
+    --sub_detail_box:13px;
+}
+
+#container_one{
+    height: 60px;
+}
+
+#container_one .top_nav{
+    width: 30% !important;
+}
+
+#container_one .top_nav li:nth-child(2),
+#container_one .top_nav li:nth-child(3){
+    display: none !important;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2{
+    color: #30e849;
+    font-weight: 600 !important;
+    pointer-events: none;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2 i{
+    color: #000;
+}
+
+
+/*-- Container_box_two --*/
+
+
+#order_box{
+    position: absolute;
+    top:0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#order_box .check_order_status_{
+    position: absolute;
+    top:50px;
+    text-transform: capitalize;
+    display: none;
+    z-index: -30;
+}
+
+#order_box .track_bar{
+    position: relative;
+    height: 100%;
+    /* width: 30%; */
+    width: 400px;
+    background: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+#order_box .track_bar > span{
+    position: absolute;
+    top:70px;
+    font-size: var(--subHeader);
+    background-color: #fff;
+    box-shadow: 2px 2px 4px #999,
+                -2px 2px 4px #999;
+    width: 70%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#order_box .track_bar .main_bar{
+    position: relative;
+    margin-top: 100px;
+    height: 80%;
+    width: 85%;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px #999,
+                -2px 2px 4px #999;
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#order_box .track_bar .main_bar div{
+    position: relative;
+    flex-grow: 1;
+    width: 60%;
+    border-left: 4px solid #30e849;
+    padding:0 25px;
+    font-weight: 500;
+    font-size: var(--fontSize_page);
+}
+
+#order_box .track_bar .main_bar div span{
+    position: absolute;
+    top:0;
+    left: -2px;
+    transform: translateX(-50%);
+    height: 22px;
+    width: 22px;
+    border-radius: 30px;
+    background-color: #222;
+    transition: 0.2s ease;
+}
+
+#order_box .track_bar .main_bar div span > span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(0);
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    border-radius: 30px;
+    opacity: 0;
+    animation:blinker 1s ease-out infinite;
+}
+
+@keyframes blinker{
+    10%{
+        opacity: 0;
+    }
+    50%{
+        transform: translateX(0) scale(1);
+        opacity: 0.1;
+    }
+    60%{
+        opacity: 0.4;
+    }
+    90%{
+        transform: translateX(0) scale(1.9);
+        opacity: 0.0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+
+#order_box .track_bar .main_bar div span .child-1,
+#order_box .track_bar .main_bar div span .child-2,
+#order_box .track_bar .main_bar div span .child-3,
+#order_box .track_bar .main_bar div span .child-4{
+    animation-play-state: paused;
+}
+
+#order_box .track_bar .main_bar div img{
+    height: 50px;
+    width: 50px;
+    margin: 15px;
+    transition: 0.2s ease;
+}
+
+#order_box .track_bar .main_bar .indicator-1,
+#order_box .track_bar .main_bar .indicator-2,
+#order_box .track_bar .main_bar .indicator-3,
+#order_box .track_bar .main_bar .indicator-4{
+    border-left: 4px dashed rgb(146, 233, 146);
+    transition: 0.2s ease;
+}
+
+
+#order_box .track_bar .main_bar .indicator-1 .blink-1,
+#order_box .track_bar .main_bar .indicator-2 .blink-2,
+#order_box .track_bar .main_bar .indicator-3 .blink-3,
+#order_box .track_bar .main_bar .indicator-4 .blink-4{
+    background-color: #888;
+    height: 17px;
+    width: 17px;
+    transition: 0.2s ease;
+}
+
+
+#order_box .track_bar .main_bar .indicator-1 .img_detail-1,
+#order_box .track_bar .main_bar .indicator-2 .img_detail-2,
+#order_box .track_bar .main_bar .indicator-3 .img_detail-3,
+#order_box .track_bar .main_bar .indicator-4 .img_detail-4{
+    filter: grayscale(100%);
+}
+
+#order_box .track_bar .main_bar p{
+    position: absolute;
+    bottom: 5px;
+    font-weight: 600;
+    text-decoration:2px overline;
+    opacity: 0;
+    font-size: 13px;
+    transition: 0.1s ease-out;
+}
+
+#order_box .track_bar .main_bar #track_mask{
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: white;
+    border: none;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight:700;
+    color:#777;
+    z-index: 5;
+    opacity: 1;
+    pointer-events: none;
+    user-select: none;
+    transition: 0.2s;
+    animation: fade 0.5s ease-out infinite alternate;
+    animation-play-state: paused;
+}
+
+@keyframes fade{
+    to{
+        color:gainsboro;
+    }
+    from{
+        color:#777;
+    }
+}
+
+
+/*-- Order Section --*/
+
+
+#order_box .order_section{
+    position: relative;
+    height: 100%;
+    width: 75%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+    user-select: none;
+}
+
+#order_box .order_section h2{
+    position: absolute;
+    top: 60px;
+    font-size: var(--TopsubHeader);
+    user-select: none;
+    z-index: 5;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    text-align: center;
+}
+#order_box .order_section > span{
+    position: absolute;
+    top: 80px;
+    right: 60px;
+    font-size: 16px;
+    font-weight: 500;
+    user-select: none;
+    z-index: -10;
+}
+#order_box .order_section > img{
+    height: 100%;
+    width: 100%;
+    filter: hue-rotate(50deg) blur(3px);
+    user-select: none;
+    pointer-events: none;
+}
+#order_box .order_section .main_section{
+    position: absolute;
+    top: 100px;
+    margin-top: 20px;
+    height:30%;
+    width: 90%;
+    box-shadow: 3px 3px 4px grey,
+                -3px 3px 4px grey,
+                inset 2px 2px 3px #ddd,
+                inset -2px 2px 3px #ddd;
+    border-radius: 5px;
+    overflow-y: scroll;
+    padding: 5px 30px;
+    background: rgba(255,255,255,0.8);
+    z-index: 5;
+}
+
+#order_box .order_section .main_section::-webkit-scrollbar,
+#order_box .order_section .main_section::-webkit-scrollbar-track {
+    width: 12px;
+}
+
+#order_box .order_section .main_section .box{
+    height:170px;
+    width: 800px;
+    /* width: 90%; */
+    border: 4px groove #999;
+    display: flex;
+    margin: 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.9);
+}
+
+#order_box .order_section .main_section .box .order_img{
+    height: 100%;
+    width: 30%;
+    user-select: none;
+}
+
+#order_box .order_section .main_section .box .order_img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+#order_box .order_section .main_section .box .child-box{
+    position: relative;
+    height: 100%;
+    width: 70%;
+    padding: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#order_box .order_section .main_section .box .child-box::before{
+    content: '';
+    position: absolute;
+    top:50%;
+    left:-5px;
+    transform: translateY(-50%);
+    height: 75%;
+    width:10px;
+    border-top:8px solid chartreuse;
+    border-bottom:8px solid chartreuse;
+    background-color: #000;
+    z-index: 5;
+}
+
+#order_box .order_section .main_section .box .child-box .Shop_name{
+    font-size: var(--cardFont);
+    z-index: 5;
+    user-select: none;
+}
+#order_box .order_section .main_section .box .child-box .Shop_name::first-letter{
+    color: #30e849;
+    user-select: none;
+}
+#order_box .order_section .main_section .box .child-box .sub_detail_box{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+    width: 90%;
+    font-size: var(--sub_detail_box);
+    color:#777;
+    user-select: none;
+}
+
+#order_box .order_section .main_section .box .child-box .button_box{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: 40px;
+    width: 250px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    padding: 5px 2px;
+    user-select: none;
+}
+
+#order_box .order_section .main_section .box .child-box .button_box a{
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px;
+    background-color: rgb(193, 248, 220);
+    border: 1px solid #000;
+}
+
+#order_box .order_section .main_section .box .child-box .button_box a:hover{
+    background-color: rgb(224, 255, 239);
+}
+#order_box .order_section .main_section .box .child-box .button_box a img{
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+}
+#order_box .order_section .main_section .box .child-box .button_box a:nth-child(1) img{
+    filter: hue-rotate(-50deg);
+}
+#order_box .order_section .main_section .box .child-box .button_box a:nth-child(2){
+    background-color: whitesmoke;  
+    filter: grayscale(100%);  
+    cursor: not-allowed;
+}
+#order_box .order_section .main_section .box .child-box .button_box a:nth-child(2) img{
+    height: 18px;
+    width: 18px;
+}
+
+
+#order_box .order_section .main_section .box .child-box .date-time{
+    position: absolute;
+    bottom: 10px;
+    user-select: none;
+}
+
+#order_box .order_section .main_section .box .child-box .current_status{
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    display: none;
+}
+
+
+
+
+/* Map */
+
+.mapouter{
+    position:absolute;
+    top: 100px;
+    text-align:right;
+    height:400px;
+    width:600px;
+}
+
+.gmap_canvas{
+    overflow:hidden;
+    background:none!important;
+    height:100%;
+    width:100%;
+}
+

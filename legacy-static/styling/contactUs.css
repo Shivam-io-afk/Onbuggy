@@ -1,0 +1,237 @@
+:root{
+    --contactHeader:50px;
+    --FSize:16px;
+    --sub_FSize:18px;
+}
+
+#container_one{
+    height: 60px;
+}
+
+#container_one .top_nav{
+    width: 30% !important;
+}
+
+#container_one .top_nav li:nth-child(2),
+#container_one .top_nav li:nth-child(4){
+    display: none !important;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2{
+    color: #30e849;
+    font-weight: 600 !important;
+    pointer-events: none;
+}
+
+#container_one #navbar #icon_4 #sub_list .selction-2 i{
+    color: #000;
+}
+
+/*-- form_container_box --*/
+
+#form_container_box{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#form_container_box > img{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#form_container_box > div{
+    height: 100%;
+    width: 50%;
+}
+
+#form_container_box .form_side_A{
+    padding-top: 100px;
+    width: 40%;
+    padding-left: 50px;
+    z-index: 4;
+    user-select: none;
+    pointer-events: none;
+}
+
+#form_container_box .form_side_A > img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0px 0px 3px #888);
+}
+
+#form_container_box .form_side_B{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    z-index: 4;
+}
+#form_container_box .form_side_B > h1{
+    position: absolute;
+    top:100px;
+    font-size: var(--contactHeader);
+    text-decoration: underline #30e849;
+    user-select: none;
+    pointer-events: none;
+}
+
+#form_container_box .form_side_B > span{
+    position: absolute;
+    top:90px;
+    text-transform: capitalize;
+    font-size: var(--sub_FSize);
+    font-weight: 500;
+    user-select: none;
+}
+
+#form_container_box .form_side_B > form{
+    height: 400px;
+    width: 500px;
+    border-radius: 5px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px #666;
+}
+
+#form_container_box .form_side_B > form > div{
+    height: 40px;
+    width: 90%;
+    margin: 5px;
+}
+
+#form_container_box .form_side_B > form > div > input{
+    height: 100%;
+    width: 100%;
+    padding-left: 40px;
+    font-size: var(--FSize);
+    outline: none;
+    border: 1px solid grey;
+    text-transform: capitalize;
+}
+
+#form_container_box .form_side_B > form > div > input::placeholder{
+    user-select: none;
+}
+
+
+#form_container_box .form_side_B > form .first-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form_container_box .form_side_B > form .first-container > i{
+    position: absolute;
+    left: 10px;
+    font-size: var(--sub_FSize);
+    pointer-events: none;
+}
+
+
+#form_container_box .form_side_B > form .secnd-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form_container_box .form_side_B > form .secnd-container > i{
+    position: absolute;
+    left: 10px;
+    font-size: var(--sub_FSize);
+    pointer-events: none;
+}
+
+
+#form_container_box .form_side_B > form .third-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#form_container_box .form_side_B > form .third-container #selection-box{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding-left: 40px;
+    font-size: var(--FSize);
+    border: 1px solid grey;
+    cursor: pointer;
+    text-transform: capitalize;   
+}
+
+#form_container_box .form_side_B > form .third-container > i{
+    position: absolute;
+    left: 10px;
+    font-size: var(--sub_FSize);
+    pointer-events: none;
+}
+
+#form_container_box .form_side_B > form .third-container #selection-box > option{
+    font-size: var(--FSize);
+}
+
+#form_container_box .form_side_B > form .fourth-container{
+    height: 150px;
+}
+
+#form_container_box .form_side_B > form .fourth-container textarea{
+    resize: none;
+    height: 100%;
+    width: 100%;
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid grey;
+    font-size: var(--FSize);
+    text-transform: capitalize;
+}
+
+
+
+#form_container_box .form_side_B > form > .fifth-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 100px;
+    margin-top: 30px;
+    border: 2px double #ddd;
+    border-radius: 5px;
+}
+
+#form_container_box .form_side_B > form > .fifth-container > i{
+    position: absolute;
+    left: 10px;
+    font-size: var(--sub_FSize);
+    color: #fff;
+    padding-left: 5px;
+    pointer-events: none;
+}
+
+#form_container_box .form_side_B > form .fifth-container input[type="submit"]{
+    font-size: 15px;
+    background-color: #30e849;
+    color: #fff;
+    outline: none;
+    font-weight: 500;
+    border-radius: 5px;
+    padding-left:30px;
+    cursor: pointer;
+}
+
+#form_container_box .form_side_B > form > input[type="submit"]:hover{
+    background-color: #23e001;
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order-goThru | Onbuggy</title>
+    <link rel="stylesheet" href="styling/main.css">
+    <link rel="stylesheet" href="styling/goThru.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styling/search-dropDown.css">
+    <script src="https://kit.fontawesome.com/c4d0292684.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyA6FFVGq29kQZws-OzhuCYwcSdirU3tjWI"></script> 
+    <script src="script/location-user-dropDown.js"></script>
+</head>
+<body>
+    <div id="container_one">
+        <div class="navbox">
+            <div id="logo">
+                <img src="resorces/other/logo2.svg"><h2>On<span>buggy</span></h2>
+            </div>
+        <div id="navbar" class="top_nav">
+            <li id="icon_1">
+                <lord-icon class="icon_1" src="https://cdn.lordicon.com/gmzxduhd.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon>
+                <a href="Onbuggy.html" class="home_indicate">home</a>
+            </li>
+            <li id="icon_2">
+                <lord-icon class="icon_2" src="https://cdn.lordicon.com/fhtaantg.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon>
+                <a href="#main_section">category</a>
+            </li>
+            <li id="icon_3">
+                <lord-icon class="icon_3" src="https://cdn.lordicon.com/eszyyflr.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon>
+                <a href="#sub_slider">service</a>
+            </li>
+            <li id="icon_4">
+                <lord-icon class="icon_4" src="https://cdn.lordicon.com/dxjqoygy.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon>
+                <a>hii user</a>
+                <img class="drop_img" src="resorces/other/57055.png">
+                <div id="sub_list">
+                    <a class="opt selction-1" href="user-profile.html"><i class="fa fa-user" aria-hidden="true"></i>My Account</a>
+                    <a class="opt selction-2" href="my-orders.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i>My Orders</a>
+                    <a class="opt" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log-out</a>
+                </div>
+            </li>
+        </div>
+    </div>
+
+    <div class="box_container">
+        <img src="resorces/other/bg-3.jpg">
+        <div id="sub_catlog">
+            <div id="main_catlog">
+                <div class="catrgory_header">
+                    <img src="resorces/other/mainImage/med-1.jpg">
+                    <h1 id="shop_main_h1">Kamal Medical Store</h1>
+                    <div class="rating_bar">
+                        <li>3.8</li>
+                        <li class="star"></li>
+                    </div>
+                </div>
+                <div class="catlog_section-1">
+                    <div class="image_upl_box">
+                        <form>
+                            <input type="file" id="get_image">
+                            <label class="image_container_box" for="get_image">Select Your Image
+                                <div class="arrow_image">
+                                    <img src="resorces/other/44571.png">
+                                </div>
+                            </label>
+                            <p class="img_name"></p>
+                            <button class="cnfrm_btn">Upload <i class="fas fa-cloud-upload-alt"></i></button>
+                        </form>
+                        <div class="error_indicator"><span class="close_box"><img src="resorces/other/cancel.png"></span></div>
+                    </div>
+                </div>
+                
+                <div class="catlog_section-2">
+                    <form>
+                        <div class="location_tag">
+                            <input type="text" id="pac-input" placeholder="Your Location" name="address" required>
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <input type="text" placeholder="date&time" id="date_Time" name="date_time" required hidden>
+                        <input type="text" placeholder="Name" name="Name" value="abc singh" required hidden>
+                        <input type="number" placeholder="Contact" name="contactNum" required hidden>
+                    
+                        <div class="amount_part"><span class="billing_head_indicator">Please Wait While We Are Calculating Your Total Amount </span><span class="billing_amount"></span></div>
+                        
+                        <div class="main_billing_section">
+                            <div id="m_Box-1">
+                                <div class="calculation">
+                                    <div class="total_amount">Total Amount 
+                                        <span id="total">
+                                            <span class="currency">₹</span><span id="totalAmont">0</span> 
+                                        </span>
+                                    </div>
+                                    <div class="delivery_charges">Delivery Charges 
+                                        <span id="delivery">
+                                            <span class="currency">₹</span><span id="delvry_chrgs">0</span>
+                                        </span>
+                                    </div>
+                                    <div class="gst_value">For feeding India (Charity 5%)
+                                        <span id="gst">
+                                            <span class="currency">₹</span><span id="gst_chrgs">0</span>
+                                        </span>
+                                    </div>
+                                    <div class="coupon">
+                                        <div class="cupnbx-1">Coupon <br/> <span class="cupn_name"></span></div>
+                                        <div class="cupnbx-2">
+                                            <div class="symbol-1">+</div>
+                                            <div class="total_amt">
+                                                <span class="currency">₹</span><span id="totalRoundValue">0</span>
+                                            </div>
+                                            <div class="cupn_discnt">
+                                                <span class="currency">₹</span><span id="couponPrice">0</span>
+                                            </div>
+                                            <div class="symbol-2">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="grand_total">Grand Total 
+                                        <span id="Gtotal">
+                                            <span class="currency">₹</span><span id="totalRoundOff">0</span>
+                                        </span></div>
+                                </div>
+                                <div class="details">
+                                    <h2>Your Details -</h2>    
+                                    <span class="user_name">Khan Singh</span><span>,</span>
+                                    <span class="user_contact">9102234950</span>
+                                    <i class="fas fa-user-edit"></i>
+                                </div>
+                            </div>
+                            <div id="m_Box-2">
+                                <div class="cupn_box">
+                                    <input type="text" id="cupon_box" list="coupon" placeholder="COUPON CODE">
+                                    <i class="fas fa-percent"></i>
+                                    <img class="clear_cupn_section" src="resorces/other/order-assets/can.png">
+                                </div>
+                                <!-- <h2 class="sub_box_header">Choose your payment method</h2> -->
+                                <div class="pymt-opt-1">
+                                    Debit Card
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="pymt-opt-2">
+                                    Credit Card
+                                    <i class="fa fa-cc-visa" aria-hidden="true"></i>
+                                </div>
+                                <div class="pymt-opt-3">Wallet <i class="fas fa-wallet"></i> <img class="arrow_down_img" src="resorces/other/57055.png">
+                                    <div id="sub_pymt_boxes">
+                                        <li class="wallet-1">Google Pay</li>
+                                        <li class="wallet-2">Phone Pay</li>
+                                        <li class="wallet-3">Paytm</li>
+                                    </div>
+                                </div>
+                                <div class="pymt-opt-4">
+                                    Pay-on-Delivery (COD)
+                                    <i class="far fa-money-bill-alt"></i>
+                                </div>
+                            </div>
+                            <datalist id="coupons">
+                                <option value="FIRSTTIME">Get 50% off on your first order</option>
+                                <option value="BAPPA20">Get 20% off on this occasion</option>
+                            </datalist>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script/goThru.js"></script>
+</body>
+</html>

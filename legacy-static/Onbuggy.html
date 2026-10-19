@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onbuggy</title>
+    <link rel="stylesheet" href="styling/main.css">
+    <link rel="stylesheet" href="styling/mediamain.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styling/search-dropDown.css">
+    <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+    <script src="https://kit.fontawesome.com/c4d0292684.js" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyA6FFVGq29kQZws-OzhuCYwcSdirU3tjWI"></script> 
+    <script src="script/location-user-dropDown.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="script/getLocationByPermission.js"></script>
+</head>
+<body>
+    <div id="container_one">
+        <div class="navbox">
+            <div id="logo">
+                <img src="resorces/other/logo2.svg"><h2>On<span>buggy</span></h2>
+            </div>
+            <div class="geoLocation_field">
+                <lord-icon src="https://cdn.lordicon.com/zzcjjxew.json" class="icon_6" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon>
+                <input type="text" id="pac-input" class="m_icon_6" placeholder="Street Name, Area Name, Locality">
+                <i class="fas fa-caret-down" id="drop"></i>
+                <div class="getLocation_box">
+                    <img src="resorces/other/icon.png">
+                    <h2 onclick="getUserManuallyPosition();">Get Location (GPS)</h2>
+                </div>
+            </div>
+        <div id="navbar">
+            <li id="icon_1"><lord-icon class="icon_1" src="https://cdn.lordicon.com/gmzxduhd.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon><a href="#container_one" class="home_indicate indicator">home</a></li>
+            <li id="icon_2"><lord-icon class="icon_2" src="https://cdn.lordicon.com/fhtaantg.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon><a href="#main_section" class="category_indicate">category</a></li>
+            <li id="icon_3"><lord-icon class="icon_3" src="https://cdn.lordicon.com/eszyyflr.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon><a href="#sub_slider" class="service_indicate">service</a></li>
+            <li id="icon_4"><lord-icon class="icon_4" src="https://cdn.lordicon.com/dxjqoygy.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon><a>hii user</a><img class="drop_img" src="resorces/other/57055.png">
+                <div id="sub_list">
+                        <a class="opt" href="user-profile.html"><i class="fa fa-user" aria-hidden="true"></i>My Account</a>
+                        <a class="opt" href="my-orders.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i>My Orders</a>
+                        <a class="opt" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log-out</a>
+                </div>
+            </li>
+        </div>
+    </div>
+    <div id="search_box">
+        <input id="icon_5" class="search_result" type="search" name="searchquery" spellcheck="true" placeholder="Search Shop By Name.">
+        <lord-icon class="icon_5" src="https://cdn.lordicon.com/msoeawqm.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="100"></lord-icon>
+    </div>
+        <div id="slider">
+            <div class="slider_box">
+                <div class="side_left">
+                    <div class="box_1">Medicine's</div>
+                    <div class="box_2">Grocery's</div>
+                    <div class="box_3">Vegetable's</div>
+                </div>
+                <div class="side_right">
+                    <div class="box_4">Vegetable's</div>
+                    <div class="box_5">Grocery's</div>
+                    <div class="box_6">Medicine's</div>
+                </div>
+            </div>
+            <div id="item_box">
+                <img class="img_one" src="resorces/medicines/11.png">
+                <img class="img_two" src="resorces/medicines/2.png">
+                <img class="img_three" src="resorces/medicines/4.png">
+                <img class="img_four" src="resorces/medicines/3.png">
+                <img class="img_five" src="resorces/medicines/6.png">
+                <img class="img_six" src="resorces/medicines/5.png">
+                <img class="img_seven" src="resorces/medicines/7.png">
+                <img class="img_eight" src="resorces/medicines/8.png">
+                <img class="img_nine" src="resorces/medicines/9.png">
+                <img class="img_ten" src="resorces/medicines/10.png">
+                <img class="img_eleven" src="resorces/medicines/1.png">
+                <img class="img_twelve" src="resorces/medicines/12.png">
+            </div>
+        </div>
+    </div>
+
+    <div id="container_two">
+        <div class="topwave">
+            <?xml version="1.0" standalone="no"?>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" id="wave" style="transform:rotate(180deg); transition: 0.2s ease" viewBox="0 0 1440 260" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0"><stop id="color-1" stop-color="orangered" style="transition: 0.2s ease;" offset="0%"/><stop id="color-2" stop-color="orangered" style="transition: 0.2s ease;" offset="100%"/></linearGradient></defs><path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)" d="M0,182L20,151.7C40,121,80,61,120,60.7C160,61,200,121,240,125.7C280,130,320,78,360,47.7C400,17,440,9,480,43.3C520,78,560,156,600,182C640,208,680,182,720,177.7C760,173,800,191,840,173.3C880,156,920,104,960,86.7C1000,69,1040,87,1080,91C1120,95,1160,87,1200,95.3C1240,104,1280,130,1320,117C1360,104,1400,52,1440,56.3C1480,61,1520,121,1560,130C1600,139,1640,95,1680,99.7C1720,104,1760,156,1800,186.3C1840,217,1880,225,1920,221C1960,217,2000,199,2040,199.3C2080,199,2120,217,2160,225.3C2200,234,2240,234,2280,203.7C2320,173,2360,113,2400,73.7C2440,35,2480,17,2520,13C2560,9,2600,17,2640,39C2680,61,2720,95,2760,125.7C2800,156,2840,182,2860,195L2880,208L2880,260L2860,260C2840,260,2800,260,2760,260C2720,260,2680,260,2640,260C2600,260,2560,260,2520,260C2480,260,2440,260,2400,260C2360,260,2320,260,2280,260C2240,260,2200,260,2160,260C2120,260,2080,260,2040,260C2000,260,1960,260,1920,260C1880,260,1840,260,1800,260C1760,260,1720,260,1680,260C1640,260,1600,260,1560,260C1520,260,1480,260,1440,260C1400,260,1360,260,1320,260C1280,260,1240,260,1200,260C1160,260,1120,260,1080,260C1040,260,1000,260,960,260C920,260,880,260,840,260C800,260,760,260,720,260C680,260,640,260,600,260C560,260,520,260,480,260C440,260,400,260,360,260C320,260,280,260,240,260C200,260,160,260,120,260C80,260,40,260,20,260L0,260Z"/></svg>
+        </div>
+        <lord-icon id="main_section" class="mousedown" src="https://cdn.lordicon.com/wtfdpwey.json" trigger="loop" colors="primary:#121331,secondary:#ffffff" stroke="100"></lord-icon>
+        <div id="category_list">
+            <li><img src="resorces/category/647237.png">Medicine</li>
+            <li><img src="resorces/category/1682360.png">Grocery</li>
+            <li><img src="resorces/category/1400260.png">Vegetable</li>
+        </div>
+        <div id="filter">
+            <h1 class="counter">12<span> Shop's</span></h1>
+            <div class="main_filters">
+                <li class="childHead"><img src="resorces/other/filter.png">Filters</li>
+                <li class="relevent_select relevent">Relevance</li>
+                <li class="time_select">Delivery Time</li>
+                <li class="rating_select">Rating</li>
+                <li class="near_select">Near-By</li>
+            </div>
+        </div>
+        <div id="detail_section">
+            <!---->
+            <a href="order-gothru.html" class="redirection total_num">
+                <div class="detail_container">
+                    <img src="resorces/other/frontImage/8626119.png">
+                    <div class="description">
+                        <h1 class="shop_name">kamal medical store</h1>
+                        <div class="rating_bar">
+                            <li>3.8</li>
+                            <li class="star"></li>
+                        </div>
+                        <div class="sub_description">all kind of medicine & drugs are availabel with good price range</div>
+                        <div class="shop_status">shop open</div>
+                            <hr/>
+                        <p class="category">Medicine And Health Care Products • Medical Shop</p>
+                        <span class="deliv_time">
+                            <lord-icon class="time_icon" src="https://cdn.lordicon.com/kbtmbyzy.json" trigger="loop" colors="primary:#121331,secondary:#30e849" stroke="100"></lord-icon>
+                            <span class="place_time">23 min</span>
+                        </span>
+                    </div>
+                </div>
+            </a>
+            <!---->
+        </div>
+    </div>
+    <div id="sub_slider">
+        <div><img src="resorces/small slider/slider-plate-1.gif"></div>
+        <div><img src="resorces/small slider/slider-plate-2.gif"></div>
+        <div><img src="resorces/small slider/slider-plate-3.gif"></div>
+    </div>
+    <div id="service">
+        <div class="main_container">
+            <div class="box_1">
+                <h1>About onbuggy</h1>
+                <li><a href="About-us.html">About Us</a></li>
+                <li><a href="Contact-us.html">Contact Us</a></li>
+                <li><a href="Soon.html">Legal</a></li>
+                <li><a href="Soon.html">Careers</a></li>
+                <li><a href="Soon.html">FAQ's</a></li>
+            </div>
+            <div class="box_2">
+                <h1>Support</h1>
+                <li><a href="Soon.html">Community</a></li>
+                <li><a href="Soon.html">Report Abuse</a></li>
+                <li><a href="Soon.html">Report Fraud</a></li>
+                <li><a href="Soon.html">Customer Service</a></li>
+            </div>
+            <div class="box_3">
+                <h1>For Shop</h1>
+                <li><a href="Soon.html">Add Shop</a></li>
+                <li><a href="Soon.html">Business App</a></li>
+                <li><a href="Soon.html">Business Owner Guidelines</a></li>
+            </div>
+            <div class="box_4">
+                <h1>For You</h1>
+                <li><a href="Soon.html">Privacy Policy</a></li>
+                <li><a href="Terms&Conditions.html">Term's & Condition</a></li>
+                <li><a href="Soon.html">Security</a></li>
+                <li><a href="Soon.html">Sitemap</a></li>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="social_platform">
+                <a href="https://www.facebook.com/Onbuggy-105388411861941/?notif_id=1629446250799964&notif_t=page_user_activity&ref=notif" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/invites/contact/?i=ic6lwiagssr7&utm_content=mpz87xc" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://twitter.com/onbuggy?t=6iN0DeuDejBA_uHtd6d0HQ&s=08" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+            </div>
+            <hr/>
+            After this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All properties of their respective owners. 2021 © onbuggy. All rights reserved.
+        </div>
+    </div>
+    <script src="script/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="styling/main.css">
+    <link rel="stylesheet" href="styling/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+</head>
+<body>
+    <div id="container_one">
+        <div class="navbox">
+            <div id="logo">
+                <img src="resorces/other/logo2.svg"><h2>On<span>buggy</span></h2>
+            </div>
+        <div id="navbar" class="top_nav">
+            <li id="icon_1"><lord-icon class="icon_1" src="https://cdn.lordicon.com/gmzxduhd.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon><a href="Onbuggy.html" class="home_indicate">home</a></li>
+            <li id="icon_2"><lord-icon class="icon_2" src="https://cdn.lordicon.com/fhtaantg.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon><a href="#main_section">category</a></li>
+            <li id="icon_3"><lord-icon class="icon_3" src="https://cdn.lordicon.com/eszyyflr.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon><a href="#sub_slider">service</a></li>
+            <li id="icon_4"><lord-icon class="icon_4" src="https://cdn.lordicon.com/dxjqoygy.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon><a class="indicator">hii user</a><img class="drop_img" src="resorces/other/57055.png">
+                <div id="sub_list">
+                        <a class="opt selction-1" href="user-profile.html"><i class="fa fa-user" aria-hidden="true"></i>My Account</a>
+                        <a class="opt selction-2" href="my-orders.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i>My Orders</a>
+                        <a class="opt" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log-out</a>
+                </div>
+            </li>
+        </div>
+    </div>
+    <div class="form_box">
+        <img src="resorces/other/useravatar.png">
+        <form id="main_form_box" action="" method="">
+            <fieldset>
+                <legend>Profile</legend>
+                <div class="name_blocks">
+                    <label for="fname" class="label-1">First Name</label>
+                    <input type="text" id="fname" name="First_Name" required>
+                    <label for="lnme" class="label-2">Last Name</label>
+                    <input type="text" id="lname" name="Last_Name" required>
+                </div>
+                <div class="email_block">
+                    <label for="email" class="label-3">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="number_block">
+                    <label for="p_number" class="label-4">Phone Number</label>
+                    <input type="number" id="p_number" name="Phone_number" autocomplete="nope" required >
+                </div>
+                    <input type="submit" name="update" id="update_detail" value="Submit">
+        </fieldset>
+        </form>
+        <div class="img_boxes">
+            <div class="box-1">
+                <img src="resorces/other/left.svg">
+            </div>
+            <div class="box-2">
+                <img src="resorces/other/right.svg">
+            </div>
+        </div>
+    </div>
+    <script src="script/user-profile.js"></script>
+</body>
+</html>

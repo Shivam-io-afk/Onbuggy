@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="styling/main.css">
+    <link rel="stylesheet" href="styling/orders.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.lordicon.com/libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+</head>
+<body>
+    <div id="container_one">
+        <div class="navbox">
+            <div id="logo">
+                <img src="resorces/other/logo2.svg"><h2>On<span>buggy</span></h2>
+            </div>
+        <div id="navbar" class="top_nav">
+            <li id="icon_1">
+                <lord-icon class="icon_1" src="https://cdn.lordicon.com/gmzxduhd.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon>
+                <a href="Onbuggy.html" class="home_indicate">home</a>
+            </li>
+            <li id="icon_2">
+                <lord-icon class="icon_2" src="https://cdn.lordicon.com/fhtaantg.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon>
+                <a href="#main_section">category</a>
+            </li>
+            <li id="icon_3">
+                <lord-icon class="icon_3" src="https://cdn.lordicon.com/eszyyflr.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="80"></lord-icon>
+                <a href="#sub_slider">service</a>
+            </li>
+            <li id="icon_4">
+                <lord-icon class="icon_4" src="https://cdn.lordicon.com/dxjqoygy.json" trigger="morph" colors="primary:#121331,secondary:#30e849" stroke="90"></lord-icon>
+                <a class="indicator">hii user</a>
+                <img class="drop_img" src="resorces/other/57055.png">
+                <div id="sub_list">
+                        <a class="opt selction-1" href="user-profile.html"><i class="fa fa-user" aria-hidden="true"></i>My Account</a>
+                        <a class="opt selction-2" href="my-orders.html"><i class="fa fa-shopping-bag" aria-hidden="true"></i>My Orders</a>
+                        <a class="opt" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log-out</a>
+                </div>
+            </li>
+        </div>
+    </div>
+    <div id="order_box">
+        <div class="track_bar">
+            <span>Track Order</span>
+            <input class="check_order_status_" type="text">
+            <div class="main_bar">
+                <div class="indicator-1">
+                    <span class="blink-1"><span class="child-1"></span></span>
+                    Order Placed
+                    <img class="img_detail-1" src="resorces/other/order-assets/order-placed.png">
+                </div>
+                <div class="indicator-2">
+                    <span class="blink-2"><span class="child-2"></span></span>
+                    Processing
+                    <img class="img_detail-2" src="resorces/other/order-assets/processing.png">
+                </div>
+                <div class="indicator-3">
+                    <span class="blink-3"><span class="child-3"></span></span>
+                    Out for delivery
+                    <img class="img_detail-3" src="resorces/other/order-assets/out-for.png">
+                </div>
+                <div class="indicator-4">
+                    <span class="blink-4"><span class="child-4"></span></span>
+                    Delivered
+                    <img class="img_detail-4" src="resorces/other/order-assets/order-delivered.png">
+                </div>
+                <div id="track_mask">Select Your Order</div>
+                <p class="end_track">Tracking-End</p>
+            </div>
+        </div>
+
+        <div class="order_section">
+            <h2>order history</h2>
+            <span>last 30 days</span>
+            <img src="resorces/other/bg.jpg">
+            <div class="main_section">
+                <!---->
+                <div class="box">
+                    <div class="order_img">
+                        <img src="resorces/other/frontImage/8626119.png">
+                    </div>
+                    <div class="child-box">
+                        <h1 class="Shop_name">Kamal Medical Store</h1>
+                        <div class="sub_detail_box">
+                            <p class="sec-1">Order # <span>2732</span></span>
+                            <p class="sec-2">Delivered By <span>Anil Kumar</span></span>
+                        </div>
+                        <div class="button_box">
+                            <a href="">Buy Again<img src="resorces/other/order-assets/again.png"></a>
+                            <a class="res_message">Cancel<img src="resorces/other/order-assets/can.png"></a>
+                        </div>
+                        <div class="date-time">
+                            <span class="time_slot">12:32 PM</span>
+                            <span>•</span>
+                            <span class="date_slot">12/08/21</span>
+                        </div>
+                        <div class="current_status">Processing</div>
+                    </div>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+
+<div class="mapouter">
+    <div class="gmap_canvas">
+        <iframe width="600" height="500" id="gmap_canvas" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+    </div>
+</div>
+
+<!-- https://maps.google.com/maps?q=india%20rewa%20Madhya%20Pradesh&t=&z=13&ie=UTF8&iwloc=&output=embed -->
+
+<script src="script/order-section.js"></script>
+</body>
+</html>
+
