@@ -256,7 +256,7 @@ export const LiveRiderMap: React.FC<LiveRiderMapProps> = ({
       </div>
     `;
     const storeMarker = L.marker(shopCoord, {
-      icon: createHtmlIcon(storeIconHtml, 'store-zomato-pin', [130, 60]),
+      icon: createHtmlIcon(storeIconHtml, 'store-onbuggy-pin', [130, 60]),
       zIndexOffset: 500,
     }).addTo(map);
     storeMarker.bindPopup(`<strong>${order.shopName}</strong><br/>Pickup Store (Rewa, MP)`);
@@ -274,17 +274,17 @@ export const LiveRiderMap: React.FC<LiveRiderMapProps> = ({
       </div>
     `;
     const destMarker = L.marker(destCoord, {
-      icon: createHtmlIcon(destIconHtml, 'dest-zomato-pin', [130, 60]),
+      icon: createHtmlIcon(destIconHtml, 'dest-onbuggy-pin', [130, 60]),
       zIndexOffset: 500,
     }).addTo(map);
     destMarker.bindPopup(`<strong>Delivery Destination</strong><br/>${order.deliveryAddress}`);
 
-    // 🛵 3D Zomato / Swiggy Rotating Delivery Bike Marker
+    // 🛵 3D Rotating Onbuggy Delivery Bike Marker
     const riderHtml = `
-      <div id="zomato-scooter-container" style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+      <div id="onbuggy-scooter-container" style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
         <!-- Concentric Radar Pulsing Rings -->
-        <div class="zomato-radar-beacon"></div>
-        <div class="zomato-radar-beacon-secondary"></div>
+        <div class="onbuggy-radar-beacon"></div>
+        <div class="onbuggy-radar-beacon-secondary"></div>
         
         <!-- Live Speed Pill Above Bike -->
         <div style="position: absolute; top: -14px; background-color: #0f172a; color: #34d399; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 9999px; border: 1px solid #10b981; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 100;">
@@ -292,7 +292,7 @@ export const LiveRiderMap: React.FC<LiveRiderMapProps> = ({
         </div>
 
         <!-- Rotating 3D Scooter Icon -->
-        <div id="zomato-scooter-rotator" style="position: relative; width: 44px; height: 44px; transform: rotate(${currentLocation.heading || 0}deg); transition: transform 0.4s ease-out; display: flex; align-items: center; justify-content: center;">
+        <div id="onbuggy-scooter-rotator" style="position: relative; width: 44px; height: 44px; transform: rotate(${currentLocation.heading || 0}deg); transition: transform 0.4s ease-out; display: flex; align-items: center; justify-content: center;">
           <svg width="42" height="42" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));">
             <!-- Scooter Shadow -->
             <ellipse cx="24" cy="24" rx="20" ry="14" fill="rgba(0,0,0,0.18)" />
@@ -401,7 +401,7 @@ export const LiveRiderMap: React.FC<LiveRiderMapProps> = ({
       riderMarkerRef.current.setLatLng([currentLocation.lat, currentLocation.lng]);
 
       // Rotate bike smoothly
-      const rotator = document.getElementById('zomato-scooter-rotator');
+      const rotator = document.getElementById('onbuggy-scooter-rotator') || document.getElementById('zomato-scooter-rotator');
       if (rotator) {
         rotator.style.transform = `rotate(${currentLocation.heading || 0}deg)`;
       }
@@ -994,7 +994,7 @@ export const LiveRiderMap: React.FC<LiveRiderMapProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <ShieldCheck size={14} color="#059669" />
             <span>
-              <strong>Zomato & Swiggy Safety Assured:</strong> Sanitized vehicle, helmet verified & temperature logged (98.4°F)
+              <strong>Onbuggy Safety Assured:</strong> Sanitized vehicle, helmet verified & temperature logged (98.4°F)
             </span>
           </div>
 
