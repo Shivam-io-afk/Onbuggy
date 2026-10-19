@@ -8,7 +8,10 @@ build/
 
 # Environment Variables
 .env
-.env.local
+.env.*
+!.env.example
+!client/.env.example
+!server/.env.example
 
 # Uploads & Temp
 server/uploads/*
