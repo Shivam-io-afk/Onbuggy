@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { ShopCard } from '../components/ShopCard';
+import { ShopCardSkeleton } from '../components/ShopCardSkeleton';
 import { Shop } from '../types';
 import { shopService } from '../services/api';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -355,9 +356,24 @@ export const HomePage: React.FC = () => {
 
         {/* Shops Grid */}
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '5rem 0', color: '#64748b' }}>
-            <Loader2 size={32} className="animate-spin" style={{ margin: '0 auto 12px auto', color: 'var(--primary-hover)' }} />
-            <p style={{ fontSize: '1.05rem', fontWeight: 600 }}>Finding verified stores near you...</p>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '1.5rem', color: '#64748b' }}>
+              <Loader2 size={18} className="animate-spin" color="var(--primary-hover)" />
+              <span style={{ fontSize: '0.92rem', fontWeight: 600 }}>
+                Syncing verified stores delivering to {userLocation}...
+              </span>
+            </div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '1.5rem',
+              }}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                <ShopCardSkeleton key={n} />
+              ))}
+            </div>
           </div>
         ) : shops.length === 0 ? (
           <div

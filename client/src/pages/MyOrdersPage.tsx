@@ -5,6 +5,7 @@ import { orderService } from '../services/api';
 import { Order } from '../types';
 import { joinOrderRoom, leaveOrderRoom, subscribeToOrderUpdates, subscribeToLocationUpdates } from '../services/socket';
 import { OrderTracker } from '../components/OrderTracker';
+import { OrderCardSkeleton } from '../components/OrderCardSkeleton';
 import { LiveRiderMap } from '../components/LiveRiderMap';
 import { formatCurrency, formatDate } from '../utils/format';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -191,9 +192,16 @@ export const MyOrdersPage: React.FC = () => {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '5rem 0', color: '#64748b' }}>
-          <Loader2 size={32} className="animate-spin" style={{ margin: '0 auto 12px auto', color: 'var(--primary-hover)' }} />
-          <p style={{ fontSize: '1.1rem', fontWeight: 600 }}>Loading orders...</p>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '1.5rem', color: '#64748b' }}>
+            <Loader2 size={18} className="animate-spin" color="var(--primary-hover)" />
+            <span style={{ fontSize: '0.92rem', fontWeight: 600 }}>Syncing live orders and GPS radar...</span>
+          </div>
+          <div style={{ maxWidth: '680px', margin: '0 auto' }}>
+            {[1, 2, 3, 4].map((n) => (
+              <OrderCardSkeleton key={n} />
+            ))}
+          </div>
         </div>
       ) : orders.length === 0 ? (
         <div

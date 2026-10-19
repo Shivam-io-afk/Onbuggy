@@ -10,21 +10,132 @@ const getBaseUrl = (): string => {
   return '/api';
 };
 
+export interface NetworkTrafficState {
+  activeCount: number;
+  isLoading: boolean;
+  isSlowRequest: boolean;
+  isServerWaking: boolean;
+  isOnline: boolean;
+}
+
+type TrafficListener = (state: NetworkTrafficState) => void;
+const listeners: Set<TrafficListener> = new Set();
+
+let activeRequests = 0;
+let slowRequestTimer: any = null;
+let isSlow = false;
+
+const notifyListeners = () => {
+  const state: NetworkTrafficState = {
+    activeCount: activeRequests,
+    isLoading: activeRequests > 0,
+    isSlowRequest: isSlow,
+    isServerWaking: isSlow,
+    isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
+  };
+  listeners.forEach((listener) => {
+    try {
+      listener(state);
+    } catch {
+      // ignore
+    }
+  });
+};
+
+export const subscribeToNetworkTraffic = (listener: TrafficListener) => {
+  listeners.add(listener);
+  listener({
+    activeCount: activeRequests,
+    isLoading: activeRequests > 0,
+    isSlowRequest: isSlow,
+    isServerWaking: isSlow,
+    isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
+  });
+  return () => {
+    listeners.delete(listener);
+  };
+};
+
+const handleRequestStart = () => {
+  activeRequests++;
+  if (activeRequests === 1) {
+    if (slowRequestTimer) clearTimeout(slowRequestTimer);
+    slowRequestTimer = setTimeout(() => {
+      if (activeRequests > 0) {
+        isSlow = true;
+        notifyListeners();
+      }
+    }, 2400); // 2.4s threshold flags server waking / high traffic
+  }
+  notifyListeners();
+};
+
+const handleRequestEnd = () => {
+  activeRequests = Math.max(0, activeRequests - 1);
+  if (activeRequests === 0) {
+    if (slowRequestTimer) {
+      clearTimeout(slowRequestTimer);
+      slowRequestTimer = null;
+    }
+    isSlow = false;
+  }
+  notifyListeners();
+};
+
 const API = axios.create({
   baseURL: getBaseUrl(),
+  timeout: 45000, // 45 seconds for Render cloud cold-starts
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Interceptor to attach Bearer token
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token && config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Interceptor to attach Bearer token and track active traffic
+API.interceptors.request.use(
+  (config) => {
+    handleRequestStart();
+    const token = localStorage.getItem('token');
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    handleRequestEnd();
+    return Promise.reject(error);
   }
-  return config;
-});
+);
+
+// Response interceptor with auto-retry on 502/503/504 Render cold starts
+API.interceptors.response.use(
+  (response) => {
+    handleRequestEnd();
+    return response;
+  },
+  async (error) => {
+    handleRequestEnd();
+
+    const config = error.config as any;
+    if (config && (!config.__retryCount || config.__retryCount < 2)) {
+      const status = error.response?.status;
+      const isRetryable =
+        !status ||
+        status === 502 ||
+        status === 503 ||
+        status === 504 ||
+        error.code === 'ECONNABORTED';
+
+      if (isRetryable && (config.method === 'get' || !config.method)) {
+        config.__retryCount = (config.__retryCount || 0) + 1;
+        const delay = config.__retryCount * 1200;
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return API(config);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 // Auth Services
 export const authService = {

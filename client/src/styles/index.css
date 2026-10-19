@@ -222,3 +222,39 @@ button {
   will-change: transform;
 }
 
+/* Shimmer Skeleton Animation for High-Traffic / Fast Page Load */
+@keyframes shimmerPulse {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #f1f5f9 0%,
+    #e2e8f0 50%,
+    #f1f5f9 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes topBarGlow {
+  0%, 100% {
+    opacity: 0.85;
+    box-shadow: 0 0 10px rgba(48, 232, 73, 0.7);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 18px rgba(249, 115, 22, 0.9);
+  }
+}
+
+.animate-top-loader {
+  animation: topBarGlow 1.2s ease-in-out infinite;
+}
+
