@@ -9,7 +9,7 @@ Thank you for your interest in contributing to **Onbuggy**! We welcome bug repor
 1. Fork and clone the repository:
    ```bash
    git clone https://github.com/Shivam-io-afk/Onbuggy.git
-   cd onbuggy
+   cd onbuggy 
    ```
 2. Install all dependencies across root, server, and client:
    ```bash
