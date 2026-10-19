@@ -70,3 +70,4 @@ export const speakPaymentAnnouncement = (amount: number, method: 'UPI' | 'Cash' 
     console.warn('Speech synthesis error:', err);
   }
 };
+

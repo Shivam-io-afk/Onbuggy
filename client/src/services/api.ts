@@ -107,6 +107,31 @@ export const adminService = {
     API.get<{ success: boolean; count: number; data: User[] }>('/admin/users'),
   updateUserRole: (id: string, role: string) =>
     API.patch<{ success: boolean; message: string; data: User }>(`/admin/users/${id}/role`, { role }),
+  getFinancials: () =>
+    API.get<{
+      success: boolean;
+      data: {
+        grossRevenue: number;
+        totalCashCollected: number;
+        totalUpiCollected: number;
+        totalPrepaidCollected: number;
+        totalTaxesCollected: number;
+        totalCharityCollected: number;
+        riderLedger: Array<{
+          riderName: string;
+          completedCount: number;
+          cashCollected: number;
+          upiCollected: number;
+          lastActive: string;
+        }>;
+      };
+    }>('/admin/financials'),
+  createShop: (shopData: Partial<Shop>) =>
+    API.post<{ success: boolean; message: string; data: Shop }>('/admin/shops', shopData),
+  deleteShop: (id: string) =>
+    API.delete<{ success: boolean; message: string }>(`/admin/shops/${id}`),
+  broadcastAlert: (alertData: { title?: string; message: string; type?: 'info' | 'warning' | 'emergency' }) =>
+    API.post<{ success: boolean; message: string; data: any }>('/admin/broadcast', alertData),
 };
 
 // Delivery Services

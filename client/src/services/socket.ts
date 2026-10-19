@@ -140,4 +140,15 @@ export const subscribeToPaymentCollected = (
   };
 };
 
+export const subscribeToPlatformBroadcast = (
+  callback: (data: { title: string; message: string; type: 'info' | 'warning' | 'emergency'; timestamp: string }) => void
+) => {
+  const s = getSocket();
+  s.on('platform:broadcast_alert', callback);
+  return () => {
+    s.off('platform:broadcast_alert', callback);
+  };
+};
+
+
 

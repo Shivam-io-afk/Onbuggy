@@ -160,3 +160,9 @@ export const emitPaymentCollected = (order: any, paymentDetails: any) => {
   }
 };
 
+export const emitPlatformBroadcast = (alert: any) => {
+  if (!io) return;
+  io.emit('platform:broadcast_alert', alert);
+};
+
+

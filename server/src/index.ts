@@ -20,8 +20,13 @@ import adminRoutes from './routes/adminRoutes';
 import deliveryRoutes from './routes/deliveryRoutes';
 import merchantRoutes from './routes/merchantRoutes';
 
+import { initServerLogger, isLogsEnabled } from './utils/logger';
+
 // Load env vars
 dotenv.config();
+
+// Initialize configurable logger (mutes terminal when ENABLE_LOGS=false)
+initServerLogger();
 
 // Connect to Database
 connectDB();
@@ -57,7 +62,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' && isLogsEnabled()) {
   app.use(morgan('dev'));
 }
 

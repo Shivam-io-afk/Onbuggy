@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Order } from '../models/Order';
 import { Shop } from '../models/Shop';
 import { User } from '../models/User';
-import { emitOrderStatusUpdated, emitShopStatusChanged } from '../socket';
+import { emitOrderStatusUpdated, emitShopStatusChanged, emitPlatformBroadcast } from '../socket';
 
 // @desc    Get dashboard executive metrics
 // @route   GET /api/admin/stats
@@ -227,4 +227,168 @@ export const updateAdminUserRole = async (req: Request, res: Response): Promise<
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Get financial reconciliation metrics (COD Cash vs. Digital UPI)
+// @route   GET /api/admin/financials
+// @access  Private (Admin)
+export const getAdminFinancials = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const orders = await Order.find({ status: { $ne: 'Cancelled' } });
+
+    let grossRevenue = 0;
+    let totalCashCollected = 0;
+    let totalUpiCollected = 0;
+    let totalPrepaidCollected = 0;
+    let totalTaxesCollected = 0;
+    let totalCharityCollected = 0;
+
+    const riderLedger: Record<string, { riderName: string; completedCount: number; cashCollected: number; upiCollected: number; lastActive: Date }> = {};
+
+    for (const o of orders) {
+      grossRevenue += o.grandTotal || 0;
+      totalTaxesCollected += o.taxAmount || 0;
+      totalCharityCollected += o.charityAmount || 0;
+
+      const rider = o.deliveryPersonnel || 'Sunil Verma';
+      if (!riderLedger[rider]) {
+        riderLedger[rider] = {
+          riderName: rider,
+          completedCount: 0,
+          cashCollected: 0,
+          upiCollected: 0,
+          lastActive: o.updatedAt || o.createdAt,
+        };
+      }
+
+      if (o.status === 'Delivered') {
+        riderLedger[rider].completedCount += 1;
+        if (o.paymentDetails?.method === 'CASH') {
+          totalCashCollected += o.paymentDetails.amountCollected || o.grandTotal;
+          riderLedger[rider].cashCollected += o.paymentDetails.amountCollected || o.grandTotal;
+        } else if (o.paymentDetails?.method === 'UPI_QR') {
+          totalUpiCollected += o.paymentDetails.amountCollected || o.grandTotal;
+          riderLedger[rider].upiCollected += o.paymentDetails.amountCollected || o.grandTotal;
+        } else if (o.paymentMethod === 'Pay-on-Delivery (COD)') {
+          totalCashCollected += o.grandTotal;
+          riderLedger[rider].cashCollected += o.grandTotal;
+        } else {
+          totalPrepaidCollected += o.grandTotal;
+        }
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        grossRevenue,
+        totalCashCollected,
+        totalUpiCollected,
+        totalPrepaidCollected,
+        totalTaxesCollected,
+        totalCharityCollected,
+        riderLedger: Object.values(riderLedger),
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Create a new store partner from admin panel
+// @route   POST /api/admin/shops
+// @access  Private (Admin)
+export const createAdminShop = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { name, category, categoryLabel, phone, address, deliveryTimeMin, distanceKm, description, image } = req.body;
+
+    if (!name || !category) {
+      res.status(400).json({ success: false, message: 'Store name and category are required' });
+      return;
+    }
+
+    const defaultImg =
+      category === 'medicine'
+        ? 'resorces/medicines/1.png'
+        : category === 'grocery'
+        ? 'resorces/grocery/1.png'
+        : 'resorces/veg&Fruits/1.png';
+
+    const newShop = await Shop.create({
+      name,
+      category,
+      categoryLabel: categoryLabel || `${name} • Verified Hyperlocal Store`,
+      phone: phone || '+91 9876543210',
+      address: address || 'Civil Lines, Rewa, MP',
+      deliveryTimeMin: deliveryTimeMin ? Number(deliveryTimeMin) : 25,
+      distanceKm: distanceKm ? Number(distanceKm) : 1.5,
+      description: description || 'Verified local merchant delivering high quality essentials across Rewa.',
+      image: image || defaultImg,
+      isOpen: true,
+      rating: 4.8,
+      reviewCount: 1,
+    });
+
+    emitShopStatusChanged(newShop);
+
+    res.status(201).json({
+      success: true,
+      message: 'New merchant store created successfully!',
+      data: newShop,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Delete or unlist a store partner
+// @route   DELETE /api/admin/shops/:id
+// @access  Private (Admin)
+export const deleteAdminShop = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const shop = await Shop.findByIdAndDelete(req.params.id);
+    if (!shop) {
+      res.status(404).json({ success: false, message: 'Shop not found' });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Shop '${shop.name}' removed successfully`,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Broadcast a platform-wide flash alert to all users/riders
+// @route   POST /api/admin/broadcast
+// @access  Private (Admin)
+export const broadcastPlatformAlert = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { title, message, type } = req.body;
+
+    if (!message) {
+      res.status(400).json({ success: false, message: 'Broadcast message content is required' });
+      return;
+    }
+
+    const alertPayload = {
+      title: title || '⚡ Platform Announcement from Onbuggy HQ',
+      message,
+      type: type || 'info', // 'info' | 'warning' | 'emergency'
+      timestamp: new Date().toISOString(),
+    };
+
+    emitPlatformBroadcast(alertPayload);
+
+    res.status(200).json({
+      success: true,
+      message: 'Flash announcement broadcasted in real time across the platform',
+      data: alertPayload,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
