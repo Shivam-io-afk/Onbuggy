@@ -372,3 +372,4 @@ export const AdminAddShopModal: React.FC<AdminAddShopModalProps> = ({ isOpen, on
     </div>
   );
 };
+

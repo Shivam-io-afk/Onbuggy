@@ -338,22 +338,6 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onSelectCategory }) 
           </div>
         </div>
       </div>
-
-      {/* Wave Transition */}
-      <div style={{ marginTop: '-1px', transform: 'rotate(180deg)' }}>
-        <svg
-          viewBox="0 0 1440 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ display: 'block', width: '100%', height: 'auto' }}
-        >
-          <path
-            d="M0,32L48,42.7C96,53,192,75,288,74.7C384,75,480,53,576,42.7C672,32,768,32,864,48C960,64,1056,96,1152,96C1248,96,1344,64,1392,48L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-            fill={currentSlide.waveColor}
-            style={{ transition: 'fill 0.8s ease' }}
-          />
-        </svg>
-      </div>
     </section>
   );
 };
