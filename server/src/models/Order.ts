@@ -51,6 +51,19 @@ export interface IOrder extends Document {
   paymentMethod: 'Debit Card' | 'Credit Card' | 'Wallet' | 'Pay-on-Delivery (COD)';
   walletProvider?: string;
   isPaid: boolean;
+  deliveryOtp?: string;
+  paymentDetails?: {
+    method: 'UPI_QR' | 'CASH' | 'ONLINE_PREPAID' | 'PAYMENT_LINK';
+    collectedAt?: Date;
+    amountCollected: number;
+    cashTendered?: number;
+    changeReturned?: number;
+    upiTransactionRef?: string;
+    payerVpa?: string;
+    deliveryOtpVerified?: boolean;
+    collectedBy?: string;
+    note?: string;
+  };
   status: OrderStatus;
   deliveryPersonnel: string;
   deliveryLocation?: IDeliveryLocation;
@@ -156,6 +169,25 @@ const OrderSchema = new Schema<IOrder>(
     isPaid: {
       type: Boolean,
       default: false,
+    },
+    deliveryOtp: {
+      type: String,
+      default: () => Math.floor(1000 + Math.random() * 9000).toString(),
+    },
+    paymentDetails: {
+      method: {
+        type: String,
+        enum: ['UPI_QR', 'CASH', 'ONLINE_PREPAID', 'PAYMENT_LINK'],
+      },
+      collectedAt: { type: Date },
+      amountCollected: { type: Number },
+      cashTendered: { type: Number },
+      changeReturned: { type: Number },
+      upiTransactionRef: { type: String },
+      payerVpa: { type: String },
+      deliveryOtpVerified: { type: Boolean, default: false },
+      collectedBy: { type: String },
+      note: { type: String },
     },
     status: {
       type: String,

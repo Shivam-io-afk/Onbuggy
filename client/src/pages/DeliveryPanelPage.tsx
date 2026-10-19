@@ -4,11 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { deliveryService } from '../services/api';
 import { Order } from '../types';
 import { LiveRiderMap } from '../components/LiveRiderMap';
+import { DeliveryPaymentModal } from '../components/DeliveryPaymentModal';
 import {
   joinRoleRoom,
   subscribeToNewOrders,
   subscribeToOrderUpdates,
   subscribeToLocationUpdates,
+  subscribeToPaymentCollected,
 } from '../services/socket';
 import { formatCurrency, formatDate } from '../utils/format';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -35,6 +37,7 @@ import {
   ArrowRight,
   ShoppingBag,
   Bell,
+  QrCode,
 } from 'lucide-react';
 
 export const DeliveryPanelPage: React.FC = () => {
@@ -49,6 +52,8 @@ export const DeliveryPanelPage: React.FC = () => {
     activeTrips: number;
     completedTrips: number;
     cashCollected: number;
+    upiCollected?: number;
+    totalCollected?: number;
     earnedPayout: number;
   } | null>(null);
 
@@ -162,10 +167,24 @@ export const DeliveryPanelPage: React.FC = () => {
       );
     });
 
+    // 4. Payment Collected updates
+    const unsubPayment = subscribeToPaymentCollected(({ order }) => {
+      if (order.status === 'Delivered') {
+        setActiveOrders((prev) => prev.filter((o) => o._id !== order._id));
+        setHistoryOrders((prev) => [order, ...prev.filter((o) => o._id !== order._id)]);
+      } else {
+        setActiveOrders((prev) => prev.map((o) => (o._id === order._id ? order : o)));
+      }
+      deliveryService.getStats().then((res) => {
+        if (res.data.success) setStats(res.data.data);
+      }).catch(() => {});
+    });
+
     return () => {
       unsubNewOrder();
       unsubStatus();
       unsubLocation();
+      unsubPayment();
     };
   }, [isAuthenticated, user?.role]);
 
@@ -655,7 +674,7 @@ export const DeliveryPanelPage: React.FC = () => {
               {formatCurrency(stats?.cashCollected || 0)}
             </p>
             <p style={{ fontSize: '0.75rem', color: '#b45309', margin: '4px 0 0' }}>
-              Cash collected to remit at hub
+              Cash in hand • UPI QR: {formatCurrency(stats?.upiCollected || 0)}
             </p>
           </div>
 
@@ -1167,8 +1186,8 @@ export const DeliveryPanelPage: React.FC = () => {
                                   setDeliveryNote('');
                                 }}
                                 style={{
-                                  backgroundColor: 'var(--primary)',
-                                  color: '#064e3b',
+                                  backgroundColor: order.isPaid ? 'var(--primary)' : '#2563eb',
+                                  color: order.isPaid ? '#064e3b' : '#ffffff',
                                   padding: '10px 18px',
                                   borderRadius: '10px',
                                   fontWeight: 800,
@@ -1178,11 +1197,22 @@ export const DeliveryPanelPage: React.FC = () => {
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   gap: '8px',
-                                  boxShadow: '0 4px 12px rgba(48,232,73,0.3)',
+                                  boxShadow: order.isPaid
+                                    ? '0 4px 12px rgba(48,232,73,0.3)'
+                                    : '0 4px 14px rgba(37,99,235,0.35)',
                                 }}
                               >
-                                <CheckCircle2 size={16} />
-                                Complete Doorstep Handover
+                                {order.isPaid ? (
+                                  <>
+                                    <CheckCircle2 size={16} />
+                                    Complete Doorstep Handover
+                                  </>
+                                ) : (
+                                  <>
+                                    <QrCode size={16} />
+                                    Collect ₹{order.grandTotal} (UPI / Cash)
+                                  </>
+                                )}
                               </button>
                             )}
                           </div>
@@ -1378,161 +1408,21 @@ export const DeliveryPanelPage: React.FC = () => {
 
       </div>
 
-      {/* Handover & Delivery Confirmation Modal */}
+      {/* Handover & Delivery Doorstep Payment Collection Modal */}
       {confirmModalOrder && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setConfirmModalOrder(null)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '1rem',
+        <DeliveryPaymentModal
+          order={confirmModalOrder}
+          isOpen={Boolean(confirmModalOrder)}
+          onClose={() => setConfirmModalOrder(null)}
+          onPaymentSuccess={(updatedOrder) => {
+            setActiveOrders((prev) => prev.filter((o) => o._id !== updatedOrder._id));
+            setHistoryOrders((prev) => [updatedOrder, ...prev.filter((o) => o._id !== updatedOrder._id)]);
+            setConfirmModalOrder(null);
+            deliveryService.getStats().then((res) => {
+              if (res.data.success) setStats(res.data.data);
+            }).catch(() => {});
           }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundColor: '#ffffff',
-              borderRadius: '20px',
-              width: '100%',
-              maxWidth: '480px',
-              padding: '24px',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
-            }}
-          >
-            <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  backgroundColor: '#ecfdf5',
-                  color: '#059669',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 12px',
-                }}
-              >
-                <PackageCheck size={28} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 6px' }}>
-                Complete Delivery Handover
-              </h3>
-              <p style={{ color: '#64748b', fontSize: '0.86rem', margin: 0 }}>
-                Order #{confirmModalOrder.orderNumber} • {confirmModalOrder.customerName}
-              </p>
-            </div>
-
-            {/* Payment Check Box */}
-            <div
-              style={{
-                backgroundColor: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '12px',
-                padding: '14px',
-                marginBottom: '1rem',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                <span style={{ fontSize: '0.82rem', color: '#64748b' }}>Payment Mode:</span>
-                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>
-                  {confirmModalOrder.paymentMethod}
-                </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#334155' }}>Amount to Collect:</span>
-                <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#d97706' }}>
-                  {formatCurrency(confirmModalOrder.grandTotal)}
-                </span>
-              </div>
-              {confirmModalOrder.isPaid ? (
-                <div style={{ marginTop: '8px', color: '#059669', fontSize: '0.78rem', fontWeight: 700 }}>
-                  ✓ Prepaid online. Do NOT ask customer for cash.
-                </div>
-              ) : (
-                <div style={{ marginTop: '8px', color: '#b45309', fontSize: '0.78rem', fontWeight: 700 }}>
-                  ⚠️ Collect exact cash from customer before handing over package.
-                </div>
-              )}
-            </div>
-
-            {/* Note input */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>
-                Delivery Note / Handed Over To (Optional):
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. Handed to customer at door / Left with security"
-                value={deliveryNote}
-                onChange={(e) => setDeliveryNote(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  borderRadius: '8px',
-                  border: '1px solid #cbd5e1',
-                  fontSize: '0.88rem',
-                  outline: 'none',
-                }}
-              />
-            </div>
-
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
-                type="button"
-                onClick={() => setConfirmModalOrder(null)}
-                style={{
-                  flex: 1,
-                  padding: '11px',
-                  borderRadius: '10px',
-                  backgroundColor: '#f1f5f9',
-                  color: '#475569',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                disabled={updatingId === confirmModalOrder._id}
-                onClick={handleConfirmHandover}
-                style={{
-                  flex: 2,
-                  padding: '11px',
-                  borderRadius: '10px',
-                  backgroundColor: 'var(--primary)',
-                  color: '#064e3b',
-                  fontWeight: 800,
-                  fontSize: '0.9rem',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                }}
-              >
-                {updatingId === confirmModalOrder._id ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  <CheckCircle2 size={16} />
-                )}
-                Confirm Handover & Payout
-              </button>
-            </div>
-          </div>
-        </div>
+        />
       )}
     </div>
   );

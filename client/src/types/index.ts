@@ -74,6 +74,19 @@ export interface DeliveryLocation {
   batteryLevel?: number;
 }
 
+export interface PaymentDetails {
+  method: 'UPI_QR' | 'CASH' | 'ONLINE_PREPAID' | 'PAYMENT_LINK';
+  collectedAt?: string;
+  amountCollected: number;
+  cashTendered?: number;
+  changeReturned?: number;
+  upiTransactionRef?: string;
+  payerVpa?: string;
+  deliveryOtpVerified?: boolean;
+  collectedBy?: string;
+  note?: string;
+}
+
 export interface Order {
   _id: string;
   orderNumber: string;
@@ -103,6 +116,8 @@ export interface Order {
   paymentMethod: 'Debit Card' | 'Credit Card' | 'Wallet' | 'Pay-on-Delivery (COD)';
   walletProvider?: string;
   isPaid: boolean;
+  deliveryOtp?: string;
+  paymentDetails?: PaymentDetails;
   status: OrderStatus;
   deliveryPersonnel: string;
   deliveryLocation?: DeliveryLocation;

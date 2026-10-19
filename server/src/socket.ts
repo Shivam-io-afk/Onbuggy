@@ -150,3 +150,13 @@ export const emitProductStockChanged = (product: any) => {
   io.emit('product:stock_toggled', { product });
 };
 
+export const emitPaymentCollected = (order: any, paymentDetails: any) => {
+  if (!io) return;
+  io.to(`order:${order._id}`).emit('order:payment_collected', { order, paymentDetails });
+  io.to('role:admin').emit('order:payment_collected', { order, paymentDetails });
+  io.to('role:delivery').emit('order:payment_collected', { order, paymentDetails });
+  if (order.shopName) {
+    io.to(`merchant:${order.shopName}`).emit('order:payment_collected', { order, paymentDetails });
+  }
+};
+

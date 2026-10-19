@@ -409,6 +409,7 @@ export const seedDatabase = async () => {
       grandTotal: 362,
       paymentMethod: 'Pay-on-Delivery (COD)',
       isPaid: false,
+      deliveryOtp: '4821',
       status: 'Out for Delivery',
       deliveryPersonnel: 'Sunil Verma (Delivery Partner)',
       deliveryLocation: {

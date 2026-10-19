@@ -119,13 +119,43 @@ export const deliveryService = {
         activeTrips: number;
         completedTrips: number;
         cashCollected: number;
+        upiCollected?: number;
+        totalCollected?: number;
         earnedPayout: number;
       };
     }>('/delivery/stats'),
   getOrders: (params?: { filter?: 'active' | 'delivered' | 'all' }) =>
     API.get<{ success: boolean; count: number; data: Order[] }>('/delivery/orders', { params }),
-  updateStatus: (id: string, data: { status: 'Out for Delivery' | 'Delivered'; note?: string }) =>
+  updateStatus: (
+    id: string,
+    data: {
+      status: 'Out for Delivery' | 'Delivered';
+      note?: string;
+      deliveryOtp?: string;
+      paymentData?: {
+        method?: 'UPI_QR' | 'CASH' | 'ONLINE_PREPAID' | 'PAYMENT_LINK';
+        amount?: number;
+        cashTendered?: number;
+        changeReturned?: number;
+        upiTransactionRef?: string;
+        note?: string;
+      };
+    }
+  ) =>
     API.patch<{ success: boolean; message: string; data: Order }>(`/delivery/orders/${id}/status`, data),
+  collectPayment: (
+    id: string,
+    data: {
+      paymentMethod: 'UPI_QR' | 'CASH' | 'ONLINE_PREPAID' | 'PAYMENT_LINK';
+      amount: number;
+      cashTendered?: number;
+      changeReturned?: number;
+      upiTransactionRef?: string;
+      deliveryOtp?: string;
+      note?: string;
+    }
+  ) =>
+    API.post<{ success: boolean; message: string; data: Order }>(`/delivery/orders/${id}/collect-payment`, data),
   updateLocation: (
     id: string,
     data: { lat: number; lng: number; speed?: number; heading?: number; statusText?: string; batteryLevel?: number }

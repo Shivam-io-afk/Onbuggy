@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import { Order, DeliveryLocation, Shop, Product } from '../types';
+import { Order, DeliveryLocation, Shop, Product, PaymentDetails } from '../types';
 
 let socket: Socket | null = null;
 
@@ -129,4 +129,15 @@ export const subscribeToProductStock = (callback: (data: { product: Product }) =
     s.off('product:stock_toggled', callback);
   };
 };
+
+export const subscribeToPaymentCollected = (
+  callback: (data: { order: Order; paymentDetails?: PaymentDetails }) => void
+) => {
+  const s = getSocket();
+  s.on('order:payment_collected', callback);
+  return () => {
+    s.off('order:payment_collected', callback);
+  };
+};
+
 

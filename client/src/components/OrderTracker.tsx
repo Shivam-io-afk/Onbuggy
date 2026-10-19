@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Order, OrderStatus } from '../types';
 import { orderService } from '../services/api';
 import { formatCurrency, formatDate } from '../utils/format';
-import { CheckCircle2, AlertTriangle, ArrowRight, XCircle, Truck, Package, Clock, ShieldCheck, Loader2 } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, ArrowRight, XCircle, Truck, Package, Clock, ShieldCheck, Loader2, QrCode, DollarSign } from 'lucide-react';
 
 interface OrderTrackerProps {
   order: Order;
@@ -173,6 +173,110 @@ export const OrderTracker: React.FC<OrderTrackerProps> = ({ order, onOrderUpdate
               This order was cancelled and will not be delivered. If charged, your refund has been initiated.
             </p>
           </div>
+        </div>
+      )}
+
+      {/* Doorstep Verification PIN Card (Active when Out for Delivery) */}
+      {!isCancelled && order.status === 'Out for Delivery' && (
+        <div
+          style={{
+            backgroundColor: '#f0fdf4',
+            border: '2px solid #86efac',
+            borderRadius: '16px',
+            padding: '14px 18px',
+            marginBottom: '1.75rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            boxShadow: '0 4px 12px rgba(34,197,94,0.12)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '10px',
+                backgroundColor: '#22c55e',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <ShieldCheck size={22} />
+            </div>
+            <div>
+              <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#166534', display: 'block' }}>
+                Doorstep Delivery PIN
+              </span>
+              <p style={{ margin: '2px 0 0', fontSize: '0.8rem', color: '#15803d' }}>
+                Share this 4-digit code with rider {order.deliveryPersonnel || 'Sunil Verma'} at handover:
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {(order.deliveryOtp || '4821').split('').map((digit, i) => (
+              <span
+                key={i}
+                style={{
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #22c55e',
+                  color: '#15803d',
+                  fontWeight: 900,
+                  fontSize: '1.35rem',
+                  width: '38px',
+                  height: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '10px',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.06)',
+                }}
+              >
+                {digit}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Payment Settlement / Receipt Banner */}
+      {!isCancelled && order.isPaid && (
+        <div
+          style={{
+            backgroundColor: '#ecfdf5',
+            border: '1px solid #a7f3d0',
+            borderRadius: '14px',
+            padding: '12px 18px',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '10px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <CheckCircle2 size={20} color="#059669" />
+            <div>
+              <strong style={{ fontSize: '0.9rem', color: '#065f46' }}>
+                Payment Settled ({order.paymentDetails?.method === 'UPI_QR' ? 'UPI BharatQR Scan' : order.paymentDetails?.method === 'CASH' ? 'Cash on Delivery' : order.paymentMethod})
+              </strong>
+              {order.paymentDetails?.upiTransactionRef && (
+                <p style={{ margin: '2px 0 0', fontSize: '0.78rem', color: '#047857' }}>
+                  Bank Ref: <code>{order.paymentDetails.upiTransactionRef}</code>
+                </p>
+              )}
+            </div>
+          </div>
+          <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#059669' }}>
+            {formatCurrency(order.grandTotal)}
+          </span>
         </div>
       )}
 

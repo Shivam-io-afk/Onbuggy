@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
 import { Order } from '../models/Order';
-import { emitOrderStatusUpdated, emitDeliveryLocation } from '../socket';
+import { emitOrderStatusUpdated, emitDeliveryLocation, emitPaymentCollected } from '../socket';
 
 // @desc    Get delivery rider dashboard metrics
 // @route   GET /api/delivery/stats
@@ -19,13 +19,24 @@ export const getDeliveryStats = async (req: AuthRequest, res: Response): Promise
       deliveryPersonnel: { $regex: riderName.split(' ')[0], $options: 'i' },
     });
 
-    // Calculate Cash on Delivery collected by this rider
-    const codOrders = await Order.find({
+    // Calculate Cash vs. UPI collections for this rider
+    const deliveredOrders = await Order.find({
       status: 'Delivered',
-      paymentMethod: 'Pay-on-Delivery (COD)',
       deliveryPersonnel: { $regex: riderName.split(' ')[0], $options: 'i' },
     });
-    const cashCollected = codOrders.reduce((sum, o) => sum + (o.grandTotal || 0), 0);
+
+    let cashCollected = 0;
+    let upiCollected = 0;
+
+    for (const o of deliveredOrders) {
+      if (o.paymentDetails?.method === 'CASH') {
+        cashCollected += o.paymentDetails.amountCollected || o.grandTotal || 0;
+      } else if (o.paymentDetails?.method === 'UPI_QR') {
+        upiCollected += o.paymentDetails.amountCollected || o.grandTotal || 0;
+      } else if (o.paymentMethod === 'Pay-on-Delivery (COD)') {
+        cashCollected += o.grandTotal || 0;
+      }
+    }
 
     // Delivery fee earned (e.g. ₹30 flat fee per completed delivery)
     const earnedPayout = completedTrips * 30;
@@ -37,6 +48,8 @@ export const getDeliveryStats = async (req: AuthRequest, res: Response): Promise
         activeTrips,
         completedTrips,
         cashCollected,
+        upiCollected,
+        totalCollected: cashCollected + upiCollected,
         earnedPayout,
       },
     });
@@ -95,9 +108,25 @@ export const updateDeliveryStatus = async (req: AuthRequest, res: Response): Pro
         note: note || `Picked up from ${order.shopName} by ${riderName}. On the way to delivery address.`,
       });
     } else if (status === 'Delivered') {
+      const { paymentData, deliveryOtp } = req.body;
       order.status = 'Delivered';
       order.deliveryPersonnel = riderName;
       order.isPaid = true; // Payment collected upon successful delivery
+      
+      if (paymentData) {
+        order.paymentDetails = {
+          method: paymentData.method || (order.paymentMethod?.includes('COD') ? 'CASH' : 'ONLINE_PREPAID'),
+          collectedAt: new Date(),
+          amountCollected: paymentData.amount || order.grandTotal,
+          cashTendered: paymentData.cashTendered,
+          changeReturned: paymentData.changeReturned,
+          upiTransactionRef: paymentData.upiTransactionRef,
+          deliveryOtpVerified: Boolean(deliveryOtp),
+          collectedBy: riderName,
+          note: paymentData.note,
+        };
+      }
+
       order.statusHistory.push({
         status: 'Delivered',
         timestamp: new Date(),
@@ -115,10 +144,90 @@ export const updateDeliveryStatus = async (req: AuthRequest, res: Response): Pro
 
     // Real-time broadcast to user, merchant, and admin
     emitOrderStatusUpdated(order);
+    if (order.paymentDetails) {
+      emitPaymentCollected(order, order.paymentDetails);
+    }
 
     res.status(200).json({
       success: true,
       message: `Order status updated to ${order.status}`,
+      data: order,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Collect payment at doorstep and deliver order
+// @route   POST /api/delivery/orders/:id/collect-payment
+// @access  Private (Delivery Rider or Admin)
+export const collectDeliveryPayment = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const {
+      paymentMethod, // 'UPI_QR' | 'CASH' | 'ONLINE_PREPAID' | 'PAYMENT_LINK'
+      amount,
+      cashTendered,
+      changeReturned,
+      upiTransactionRef,
+      deliveryOtp,
+      note,
+    } = req.body;
+
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      res.status(404).json({ success: false, message: 'Order not found' });
+      return;
+    }
+
+    // Verify delivery OTP if provided and set on order
+    if (order.deliveryOtp && deliveryOtp) {
+      if (order.deliveryOtp.trim() !== String(deliveryOtp).trim()) {
+        res.status(400).json({
+          success: false,
+          message: `Incorrect Delivery OTP '${deliveryOtp}'. Please verify the 4-digit code shown on customer's screen.`,
+        });
+        return;
+      }
+    }
+
+    const riderName = req.user?.name || order.deliveryPersonnel || 'Sunil Verma';
+    const finalAmount = amount !== undefined ? Number(amount) : order.grandTotal;
+
+    order.isPaid = true;
+    order.status = 'Delivered';
+    order.deliveryPersonnel = riderName;
+
+    const refNumber = upiTransactionRef || (paymentMethod === 'UPI_QR' ? `UPI/${Math.floor(100000000000 + Math.random() * 900000000000)}` : undefined);
+
+    const paymentDetails = {
+      method: paymentMethod || 'UPI_QR',
+      collectedAt: new Date(),
+      amountCollected: finalAmount,
+      cashTendered: cashTendered ? Number(cashTendered) : undefined,
+      changeReturned: changeReturned ? Number(changeReturned) : undefined,
+      upiTransactionRef: refNumber,
+      deliveryOtpVerified: Boolean(deliveryOtp),
+      collectedBy: riderName,
+      note: note || (paymentMethod === 'UPI_QR' ? `Paid ₹${finalAmount} via UPI BharatQR scan (Ref: ${refNumber})` : `Collected ₹${finalAmount} physical cash at doorstep.`),
+    };
+
+    order.paymentDetails = paymentDetails;
+
+    order.statusHistory.push({
+      status: 'Delivered',
+      timestamp: new Date(),
+      note: note || `Handed over to customer and payment of ₹${finalAmount} collected via ${paymentMethod === 'UPI_QR' ? 'UPI QR code' : paymentMethod === 'CASH' ? 'Cash' : 'Online'} by ${riderName}.`,
+    });
+
+    await order.save();
+
+    // Broadcast both status update and payment collected event
+    emitOrderStatusUpdated(order);
+    emitPaymentCollected(order, paymentDetails);
+
+    res.status(200).json({
+      success: true,
+      message: `Payment of ₹${finalAmount} successfully recorded and order marked as Delivered`,
       data: order,
     });
   } catch (error: any) {
